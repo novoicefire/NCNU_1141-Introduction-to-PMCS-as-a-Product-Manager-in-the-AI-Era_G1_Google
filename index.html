@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【Modify: Project Title】 - Interactive Learning Object</title>
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                            gold: '#D4AF37',
+                        },
+                        accent: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Montserrat"', '"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Montserrat', 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .brand-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* 3D Flip Card Styles */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+
+        .backface-hidden {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Hide scrollbar */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Gauge Animation */
+        .gauge-needle {
+            transition: transform 1s cubic-bezier(0.4, 0.0, 0.2, 1);
+            transform-origin: bottom center;
+        }
+
+        /* Fade-in Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useMemo } = React;
+
+        // --- 1. Data Constants ---
+
+        // 術語表資料
+        const glossaryData = [
+            { k: "【Modify: Term A】", alt: ["備用名稱A"], tc: "【Modify: Term A 的詳細定義...】" },
+            { k: "【Modify: Term B】", alt: ["備用名稱B"], tc: "【Modify: Term B 的詳細定義...】" },
+            { k: "【Modify: Term C】", alt: ["備用名稱C"], tc: "【Modify: Term C 的詳細定義...】" },
+            { k: "【Modify: Core Concept】", alt: ["核心概念"], tc: "【Modify: Core Concept 的詳細定義...】" },
+            { k: "【Modify: Key Takeaways】", alt: ["重點摘要"], tc: "【Modify: Key Takeaways 的詳細定義...】" },
+            { k: "【Modify: Applications】", alt: ["應用實例"], tc: "【Modify: Applications 的詳細定義...】" },
+        ];
+
+        // 影片列表
+        const videoList = [
+            { title: "【Modify: Video 1 Title】", url: "https://youtu.be/dQw4w9WgXcQ" },
+            { title: "【Modify: Video 2 Title】", url: "https://youtu.be/dQw4w9WgXcQ" },
+            { title: "【Modify: Video 3 Title】", url: "https://youtu.be/dQw4w9WgXcQ" },
+        ];
+
+        // 章節資料
+        const APP_DATA = {
+            meta: {
+                title: "【Modify: Course Name/Project】",
+                slogan: "Interactive Learning Object",
+                copyright: "Copyright © 2025. All Rights Reserved.",
+                glossaryPrompt: "選擇術語以查看說明...",
+            },
+            labels: {
+                nav: "導覽目錄",
+                highlights: "重點摘要",
+                actionPlan: "行動計畫",
+                keywords: "關鍵字",
+                flashcards: "學習卡",
+                quiz: "自我檢視",
+                themes: "主題探索",
+                videos: "精選短片",
+                glossary: "術語表",
+                yes: "是 (+1)",
+                unsure: "不確定 (0)",
+                no: "否 (-1)",
+                totalScore: "學習指數",
+                gaugeLabel: "總分",
+                userProfile: "學習歷程",
+                historyTitle: "自我檢視歷程",
+                watchVideo: "觀看影片",
+            },
+            sections: [
+                {
+                    id: 0,
+                    title: "關鍵重點摘要",
+                    icon: "fa-star",
+                    highlights: [
+                        "【Modify: Core Belief 1】",
+                        "【Modify: Key Shift 2】",
+                        "【Modify: Practice 3】"
+                    ],
+                    actionPlan: [
+                        "【Modify: Action Item 1】",
+                        "【Modify: Action Item 2】",
+                        "【Modify: Action Item 3】"
+                    ],
+                    keywords: ["【Modify: Core Concept】", "【Modify: Key Takeaways】", "【Modify: Applications】"],
+                    themes: [
+                        {
+                            title: "【Modify: Theme 1】",
+                            subThemes: [
+                                { title: "子主題 1", content: "【Modify: Theme 1 SubTheme 1 內容】" },
+                                { title: "子主題 2", content: "【Modify: Theme 1 SubTheme 2 內容】" }
+                            ]
+                        },
+                        {
+                            title: "【Modify: Theme 2】",
+                            subThemes: [
+                                { title: "子主題 1", content: "【Modify: Theme 2 SubTheme 1 內容】" }
+                            ]
+                        }
+                    ],
+                    flashcards: [
+                        { front: "【Modify: Card 1 Front】", back: "【Modify: Card 1 Back - 詳細說明】" },
+                        { front: "【Modify: Card 2 Front】", back: "【Modify: Card 2 Back - 詳細說明】" }
+                    ],
+                    quiz: [
+                        { q: "【Modify: Quiz Question 1】" },
+                        { q: "【Modify: Quiz Question 2】" }
+                    ]
+                },
+                {
+                    id: 1,
+                    title: "專案影片",
+                    icon: "fa-video",
+                    highlights: [
+                        "【Modify: Video Section Highlight 1】",
+                        "【Modify: Video Section Highlight 2】"
+                    ],
+                    actionPlan: [
+                        "【Modify: Watch Video 1】",
+                        "【Modify: Reflect on content】"
+                    ],
+                    keywords: ["影片學習", "多媒體"],
+                    themes: [],
+                    flashcards: [],
+                    quiz: [
+                        { q: "【Modify: Did you watch the video?】" }
+                    ],
+                    videos: videoList
+                },
+                {
+                    id: 2,
+                    title: "詳細內容",
+                    icon: "fa-file-text",
+                    highlights: [
+                        "【Modify: Transcript Highlight 1】",
+                        "【Modify: Transcript Highlight 2】"
+                    ],
+                    actionPlan: [
+                        "【Modify: Read the full transcript】",
+                        "【Modify: Take notes】"
+                    ],
+                    keywords: ["逐字稿", "詳細閱讀"],
+                    themes: [
+                        {
+                            title: "【Modify: Content Theme】",
+                            subThemes: [
+                                { title: "段落一", content: "【Modify: Detailed content paragraph 1...】" },
+                                { title: "段落二", content: "【Modify: Detailed content paragraph 2...】" }
+                            ]
+                        }
+                    ],
+                    flashcards: [],
+                    quiz: [
+                        { q: "【Modify: Did you understand the content?】" }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "互動問答",
+                    icon: "fa-comments",
+                    highlights: [
+                        "【Modify: Q&A Highlight 1】",
+                        "【Modify: Q&A Highlight 2】"
+                    ],
+                    actionPlan: [
+                        "【Modify: Review all Q&A】",
+                        "【Modify: Prepare your own questions】"
+                    ],
+                    keywords: ["問答", "互動學習"],
+                    themes: [
+                        {
+                            title: "常見問題",
+                            subThemes: [
+                                { title: "Q1", content: "【Modify: Question 1 Answer】" },
+                                { title: "Q2", content: "【Modify: Question 2 Answer】" },
+                                { title: "Q3", content: "【Modify: Question 3 Answer】" }
+                            ]
+                        }
+                    ],
+                    flashcards: [
+                        { front: "【Modify: Q&A Card 1】", back: "【Modify: Answer 1】" }
+                    ],
+                    quiz: [
+                        { q: "【Modify: Can you answer the main question?】" }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "視覺素材",
+                    icon: "fa-images",
+                    highlights: [
+                        "【Modify: Gallery Highlight 1】",
+                        "【Modify: Gallery Highlight 2】"
+                    ],
+                    actionPlan: [
+                        "【Modify: Review all figures】",
+                        "【Modify: Understand the data】"
+                    ],
+                    keywords: ["圖表", "視覺化"],
+                    themes: [
+                        {
+                            title: "圖表說明",
+                            subThemes: [
+                                { title: "Fig 1", content: "【Modify: Figure 1 description】" },
+                                { title: "Fig 2", content: "【Modify: Figure 2 description】" }
+                            ]
+                        }
+                    ],
+                    flashcards: [],
+                    quiz: [
+                        { q: "【Modify: Did you review the visual materials?】" }
+                    ],
+                    gallery: [
+                        { src: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=800", caption: "【Modify: Fig 1】" },
+                        { src: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=800", caption: "【Modify: Fig 2】" },
+                        { src: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&q=80&w=800", caption: "【Modify: Fig 3】" },
+                        { src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800", caption: "【Modify: Fig 4】" }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "團隊介紹",
+                    icon: "fa-users",
+                    highlights: [
+                        "【Modify: Team Highlight 1】",
+                        "【Modify: Team Highlight 2】"
+                    ],
+                    actionPlan: [
+                        "【Modify: Meet the team】",
+                        "【Modify: Read the reflection】"
+                    ],
+                    keywords: ["團隊", "協作"],
+                    themes: [
+                        {
+                            title: "團隊心得",
+                            subThemes: [
+                                { title: "心得", content: "【Modify: Team Reflection - We learned a lot about...】" }
+                            ]
+                        }
+                    ],
+                    flashcards: [],
+                    quiz: [
+                        { q: "【Modify: Did you learn about the team?】" }
+                    ],
+                    team: {
+                        members: [
+                            { name: "【Modify: Name 1】", role: "【Modify: Role 1】", img: "https://i.pravatar.cc/150?img=11" },
+                            { name: "【Modify: Name 2】", role: "【Modify: Role 2】", img: "https://i.pravatar.cc/150?img=5" },
+                            { name: "【Modify: Name 3】", role: "【Modify: Role 3】", img: "https://i.pravatar.cc/150?img=3" }
+                        ],
+                        reflection: "【Modify: Team Reflection content...】"
+                    }
+                },
+                {
+                    id: 6,
+                    title: "使用歷程",
+                    icon: "fa-tachometer-alt",
+                    highlights: [
+                        "檢視個人學習進度",
+                        "追蹤測驗積分與狀態"
+                    ],
+                    actionPlan: [
+                        "定期檢查完成度",
+                        "針對低分項目複習"
+                    ],
+                    keywords: ["學習分析", "進度追蹤"],
+                    themes: [],
+                    flashcards: [],
+                    quiz: [],
+                    isHistory: true
+                }
+            ],
+            footer: {
+                prof: "【Modify: Professor Name】",
+                uni: "【Modify: University Name】",
+                year: "2025"
+            }
+        };
+
+        // --- 2. Utility Components ---
+
+        // Gauge Chart Component
+        const GaugeChart = ({ score, max = 12, label }) => {
+            const segments = [
+                { color: "#EF4444", range: "0-2" },
+                { color: "#F97316", range: "2-4" },
+                { color: "#EAB308", range: "4-6" },
+                { color: "#9CA3AF", range: "6-8" },
+                { color: "#10B981", range: "8-10" },
+                { color: "#3B82F6", range: "10-12" }
+            ];
+            const radius = 80;
+            const stroke = 20;
+            const normalizedScore = Math.min(Math.max(score, 0), max);
+            const angle = (normalizedScore / max) * 180 - 90;
+
+            const polarToCartesian = (centerX, centerY, r, angleInDegrees) => {
+                const angleInRadians = (angleInDegrees - 180) * Math.PI / 180.0;
+                return { x: centerX + (r * Math.cos(angleInRadians)), y: centerY + (r * Math.sin(angleInRadians)) };
+            };
+
+            const createArc = (startAngle, endAngle) => {
+                const start = polarToCartesian(100, 100, radius, endAngle);
+                const end = polarToCartesian(100, 100, radius, startAngle);
+                const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+                return ["M", start.x, start.y, "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y].join(" ");
+            };
+
+            return (
+                <div className="flex flex-col items-center justify-center p-4">
+                    <div className="relative w-64 h-32 overflow-hidden mb-4">
+                        <svg viewBox="0 0 200 110" className="w-full h-full">
+                            {segments.map((seg, i) => {
+                                const start = (i * 30);
+                                const end = ((i + 1) * 30);
+                                return <path key={i} d={createArc(start, end)} fill="none" stroke={seg.color} strokeWidth={stroke} strokeDasharray="1 1" />;
+                            })}
+                            <g className="gauge-needle" style={{ transform: `rotate(${angle}deg)`, transformOrigin: "100px 100px" }}>
+                                <polygon points="100,100 95,20 100,10 105,20" fill="#0ea5e9" />
+                                <circle cx="100" cy="100" r="5" fill="#0ea5e9" />
+                            </g>
+                        </svg>
+                        <div className="absolute bottom-0 w-full text-center">
+                            <span className="text-3xl font-bold text-brand-600 brand-serif">{score}</span>
+                            <span className="text-xs text-gray-500 ml-1">/ {max}</span>
+                        </div>
+                    </div>
+                    <div className="flex gap-1 text-[10px] uppercase font-bold text-gray-400">
+                        {segments.map((s, i) => <span key={i} style={{ color: s.color }}>{s.range}</span>)}
+                    </div>
+                    <p className="mt-2 text-sm font-bold text-gray-600">{label}</p>
+                </div>
+            );
+        };
+
+        // Theme Explorer Component
+        const ThemeExplorer = ({ themes, label }) => {
+            const [selectedMajor, setSelectedMajor] = useState(0);
+            const [selectedMinor, setSelectedMinor] = useState(0);
+
+            if (!themes || themes.length === 0) return null;
+
+            const majorTheme = themes[selectedMajor];
+            const subThemes = majorTheme?.subThemes || [];
+            const minorTheme = subThemes[selectedMinor];
+
+            return (
+                <div className="mt-8 p-6 bg-slate-100 dark:bg-slate-800 rounded-lg border-l-4 border-brand-500 shadow-sm">
+                    <div className="flex items-center mb-5">
+                        <i className="fas fa-compass text-brand-500 dark:text-brand-400 text-xl mr-3"></i>
+                        <h4 className="text-lg font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider brand-serif">{label}</h4>
+                    </div>
+                    <div className="mb-4">
+                        <select
+                            className="w-full p-3 rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm font-medium focus:ring-1 focus:ring-brand-500 outline-none"
+                            value={selectedMajor}
+                            onChange={(e) => { setSelectedMajor(Number(e.target.value)); setSelectedMinor(0); }}
+                        >
+                            {themes.map((t, i) => <option key={i} value={i}>{t.title}</option>)}
+                        </select>
+                    </div>
+                    {subThemes.length > 0 && (
+                        <div className="animate-fade-in">
+                            <select
+                                className="w-full p-3 rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm mb-4 outline-none"
+                                value={selectedMinor}
+                                onChange={(e) => setSelectedMinor(Number(e.target.value))}
+                            >
+                                {subThemes.map((t, i) => <option key={i} value={i}>{t.title}</option>)}
+                            </select>
+                            <div className="p-5 bg-white dark:bg-slate-900 rounded shadow-inner text-slate-700 dark:text-slate-300 leading-relaxed brand-serif text-sm border border-slate-100 dark:border-slate-700">
+                                {minorTheme?.content}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // Self-Check Quiz Component
+        const SelfCheck = ({ questions, answers, onAnswer, labels }) => {
+            return (
+                <div className="space-y-4">
+                    {questions.map((q, idx) => {
+                        const val = answers[idx];
+                        return (
+                            <div key={idx} className="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow">
+                                <p className="font-semibold text-slate-800 dark:text-slate-200 mb-4 brand-serif">{idx + 1}. {q.q}</p>
+                                <div className="flex gap-3">
+                                    {[
+                                        { v: 1, l: labels.yes, c: 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100' },
+                                        { v: 0, l: labels.unsure, c: 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100' },
+                                        { v: -1, l: labels.no, c: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100' }
+                                    ].map(opt => (
+                                        <button
+                                            key={opt.v}
+                                            onClick={() => onAnswer(idx, opt.v)}
+                                            className={`flex-1 py-2 rounded text-xs font-bold transition border ${val === opt.v ? 'ring-2 ring-brand-500 ring-offset-1 ' + opt.c : 'opacity-70 ' + opt.c}`}
+                                        >
+                                            {opt.l}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            );
+        };
+
+        // Flashcard Component
+        const Flashcard = ({ front, back }) => {
+            const [flipped, setFlipped] = useState(false);
+            return (
+                <div className="group w-full h-40 cursor-pointer perspective-1000" onClick={() => setFlipped(!flipped)} onMouseLeave={() => setFlipped(false)}>
+                    <div className={`relative w-full h-full text-center transition-transform duration-700 transform-style-3d ${flipped ? 'rotate-y-180' : ''}`}>
+                        <div className="absolute w-full h-full backface-hidden bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center p-6 z-10 group-hover:shadow-md transition-shadow">
+                            <h3 className="text-lg font-bold text-brand-600 dark:text-brand-400 brand-serif">{front}</h3>
+                            <p className="text-xs text-slate-400 mt-2">Click to flip</p>
+                        </div>
+                        <div className="absolute w-full h-full backface-hidden bg-brand-600 text-white rounded-lg shadow-sm flex items-center justify-center p-6 rotate-y-180">
+                            <p className="text-sm font-medium leading-relaxed">{back}</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Video Card Component
+        const VideoCard = ({ video, label }) => {
+            const getYouTubeID = (url) => {
+                const match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/);
+                return (match && match[2].length === 11) ? match[2] : null;
+            };
+            const videoID = getYouTubeID(video.url);
+            const thumbUrl = videoID ? `https://img.youtube.com/vi/${videoID}/mqdefault.jpg` : 'https://via.placeholder.com/320x180';
+
+            return (
+                <a href={video.url} target="_blank" rel="noopener noreferrer" className="block group">
+                    <div className="bg-white dark:bg-slate-800 rounded-lg overflow-hidden shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300">
+                        <div className="relative aspect-video bg-slate-100 dark:bg-slate-700 overflow-hidden">
+                            <img src={thumbUrl} alt={video.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100" />
+                            <div className="absolute inset-0 flex items-center justify-center bg-brand-600 bg-opacity-0 group-hover:bg-opacity-20 transition-all">
+                                <i className="fas fa-play-circle text-4xl text-white opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300"></i>
+                            </div>
+                        </div>
+                        <div className="p-4">
+                            <h4 className="font-semibold text-slate-800 dark:text-slate-100 text-sm line-clamp-2 mb-2 group-hover:text-brand-600 transition-colors brand-serif">{video.title}</h4>
+                            <span className="text-xs text-brand-600 font-bold uppercase tracking-wider flex items-center">{label} <i className="fas fa-arrow-right ml-1 text-[10px]"></i></span>
+                        </div>
+                    </div>
+                </a>
+            );
+        };
+
+        // Gallery Component
+        const GallerySection = ({ gallery }) => {
+            if (!gallery || gallery.length === 0) return null;
+            return (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                    {gallery.map((img, idx) => (
+                        <div key={idx} className="group relative overflow-hidden rounded-xl shadow-md cursor-pointer aspect-video">
+                            <img src={img.src} alt={img.caption} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                                <p className="text-white text-sm font-medium">{img.caption}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            );
+        };
+
+        // Team Section Component
+        const TeamSection = ({ team }) => {
+            if (!team) return null;
+            return (
+                <div className="mt-6">
+                    <div className="flex flex-wrap justify-center gap-8 mb-8">
+                        {team.members.map((member, idx) => (
+                            <div key={idx} className="flex flex-col items-center">
+                                <div className="w-20 h-20 rounded-full overflow-hidden mb-3 border-2 border-brand-200 dark:border-brand-800 shadow-lg">
+                                    <img src={member.img} alt={member.name} className="w-full h-full object-cover" />
+                                </div>
+                                <h4 className="font-bold text-slate-900 dark:text-white text-sm">{member.name}</h4>
+                                <p className="text-xs text-accent-600 dark:text-accent-400 font-semibold uppercase tracking-wider">{member.role}</p>
+                            </div>
+                        ))}
+                    </div>
+                    {team.reflection && (
+                        <div className="bg-slate-900 dark:bg-brand-900 rounded-xl p-6 text-center text-white">
+                            <i className="fa-solid fa-quote-left text-2xl text-brand-700 mb-4 block opacity-50"></i>
+                            <p className="text-sm md:text-base font-light italic">"{team.reflection}"</p>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // Usage History Component
+        const UsageHistory = ({ quizScores, sections, labels }) => {
+            const totalScore = Object.values(quizScores).reduce((acc, sec) => acc + Object.values(sec).reduce((a, b) => a + b, 0), 0);
+            const maxQuestions = sections.reduce((acc, sec) => acc + (sec.quiz?.length || 0), 0);
+
+            return (
+                <div className="space-y-6 animate-fade-in">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center">
+                            <h3 className="text-lg font-bold text-brand-600 mb-2 brand-serif w-full text-left border-b pb-2">{labels.totalScore}</h3>
+                            <GaugeChart score={totalScore} max={maxQuestions} label={labels.gaugeLabel} />
+                        </div>
+                        <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
+                            <h3 className="text-lg font-bold text-brand-600 mb-4 brand-serif border-b pb-2">
+                                <i className="fas fa-chart-bar mr-2"></i> {labels.userProfile}
+                            </h3>
+                            <div className="space-y-3 text-sm">
+                                <div className="flex justify-between">
+                                    <span className="text-slate-500">已回答題數</span>
+                                    <span className="font-semibold">{Object.values(quizScores).reduce((acc, sec) => acc + Object.keys(sec).length, 0)} / {maxQuestions}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-slate-500">總分</span>
+                                    <span className="font-semibold text-brand-600">{totalScore}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
+                        <h3 className="text-lg font-bold text-brand-600 mb-4 brand-serif">
+                            <i className="fas fa-list-ul mr-2"></i> {labels.historyTitle}
+                        </h3>
+                        <div className="space-y-0 divide-y divide-slate-100 dark:divide-slate-700">
+                            {sections.map(sec => {
+                                if (!sec.quiz || sec.quiz.length === 0) return null;
+                                const secScores = quizScores[sec.id] || {};
+                                const secTotal = Object.values(secScores).reduce((a, b) => a + b, 0);
+                                return (
+                                    <div key={sec.id} className="py-3 flex justify-between items-center hover:bg-slate-50 dark:hover:bg-slate-900 px-2 transition-colors">
+                                        <div className="flex items-center">
+                                            <div className="w-8 h-8 rounded bg-slate-100 dark:bg-slate-700 flex items-center justify-center mr-3 text-brand-600 text-sm">
+                                                <i className={`fas ${sec.icon}`}></i>
+                                            </div>
+                                            <span className="text-sm text-slate-700 dark:text-slate-300 font-medium">{sec.title}</span>
+                                        </div>
+                                        <span className={`text-sm font-bold px-2 py-1 rounded ${secTotal > 0 ? 'bg-green-100 text-green-700' : secTotal < 0 ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-500'}`}>
+                                            {secTotal > 0 ? '+' : ''}{secTotal}
+                                        </span>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- 3. Main App Component ---
+
+        const App = () => {
+            const [darkMode, setDarkMode] = useState(() => {
+                if (localStorage.getItem('theme') === 'dark' ||
+                    (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    return true;
+                }
+                return false;
+            });
+            const [activeSection, setActiveSection] = useState(0);
+            const [sidebarOpen, setSidebarOpen] = useState(true);
+            const [quizScores, setQuizScores] = useState({});
+            const [selectedGlossaryKey, setSelectedGlossaryKey] = useState("");
+
+            const footerRef = useRef(null);
+            const mainContentRef = useRef(null);
+
+            // Dark mode effect
+            useEffect(() => {
+                if (darkMode) {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                }
+            }, [darkMode]);
+
+            // Responsive sidebar
+            useEffect(() => {
+                const handleResize = () => {
+                    if (window.innerWidth < 1024) setSidebarOpen(false);
+                    else setSidebarOpen(true);
+                };
+                window.addEventListener('resize', handleResize);
+                handleResize();
+                return () => window.removeEventListener('resize', handleResize);
+            }, []);
+
+            const currentSection = APP_DATA.sections[activeSection];
+
+            const displayGlossary = useMemo(() => {
+                return glossaryData.map(item => ({
+                    key: item.k,
+                    t: item.k,
+                    d: item.tc
+                })).sort((a, b) => a.t.localeCompare(b.t));
+            }, []);
+
+            const currentGlossaryDefinition = useMemo(() => {
+                if (!selectedGlossaryKey) return null;
+                const item = glossaryData.find(g => g.k === selectedGlossaryKey);
+                return item ? item.tc : null;
+            }, [selectedGlossaryKey]);
+
+            const handleQuizAnswer = (secId, qIdx, score) => {
+                setQuizScores(prev => ({
+                    ...prev,
+                    [secId]: { ...(prev[secId] || {}), [qIdx]: score }
+                }));
+            };
+
+            const handleKeywordClick = (keyword) => {
+                const found = glossaryData.find(g =>
+                    g.k === keyword ||
+                    (g.alt && g.alt.includes(keyword))
+                );
+                if (found) {
+                    setSelectedGlossaryKey(found.k);
+                    if (footerRef.current) {
+                        footerRef.current.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            };
+
+            const toggleDarkMode = () => setDarkMode(!darkMode);
+
+            return (
+                <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950">
+
+                    {/* Fixed Header */}
+                    <header className="fixed top-0 left-0 w-full h-16 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 shadow-sm z-50 flex items-center px-4 md:px-6 justify-between transition-all">
+                        <div className="flex items-center gap-4">
+                            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-slate-500 hover:text-brand-600 focus:outline-none transition-colors">
+                                <i className="fas fa-bars text-xl"></i>
+                            </button>
+                            <div className="flex items-center">
+                                <div className="w-10 h-10 bg-brand-600 flex items-center justify-center rounded-lg mr-3 shadow-sm">
+                                    <i className="fa-solid fa-graduation-cap text-white text-lg"></i>
+                                </div>
+                                <div className="hidden sm:block">
+                                    <span className="text-brand-900 dark:text-white font-bold text-sm md:text-base brand-serif">{APP_DATA.meta.title}</span>
+                                    <span className="text-slate-400 text-xs block">{APP_DATA.meta.slogan}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                            <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-accent-400">
+                                {darkMode ? <i className="fa-solid fa-sun text-lg"></i> : <i className="fa-solid fa-moon text-lg"></i>}
+                            </button>
+                        </div>
+                    </header>
+
+                    <div className="flex pt-16 min-h-screen">
+
+                        {/* Sidebar */}
+                        <aside className={`fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-white dark:bg-slate-900 border-r border-slate-100 dark:border-slate-800 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out z-40 flex flex-col overflow-hidden shadow-lg`}>
+                            <div className="flex-1 overflow-y-auto no-scrollbar py-6">
+                                <p className="px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6">{APP_DATA.labels.nav}</p>
+                                <ul className="space-y-1 px-3">
+                                    {APP_DATA.sections.map((sec, idx) => (
+                                        <li key={sec.id}>
+                                            <button
+                                                onClick={() => {
+                                                    setActiveSection(idx);
+                                                    if (window.innerWidth < 1024) setSidebarOpen(false);
+                                                    window.scrollTo(0, 0);
+                                                }}
+                                                className={`w-full text-left px-4 py-3 text-sm font-medium rounded-md transition-all flex items-center ${activeSection === idx ? 'bg-brand-50 text-brand-700 dark:bg-slate-800 dark:text-brand-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-800'}`}
+                                            >
+                                                <i className={`fas ${sec.icon} w-6 text-center text-xs mr-3 opacity-70`}></i>
+                                                <span className="truncate">{sec.title}</span>
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </aside>
+
+                        {/* Main Content */}
+                        <main ref={mainContentRef} className={`flex-1 w-full transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'ml-0'}`}>
+                            <div className="max-w-5xl mx-auto p-6 md:p-12 pb-32">
+
+                                {/* Section Header */}
+                                <header className="mb-10">
+                                    <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white leading-tight brand-serif flex items-center">
+                                        <div className="w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center text-lg mr-4 shadow-md shrink-0">
+                                            <i className={`fas ${currentSection.icon}`}></i>
+                                        </div>
+                                        {currentSection.title}
+                                    </h2>
+                                    <div className="h-1 w-20 bg-accent-500 mt-4 rounded-full"></div>
+                                </header>
+
+                                {/* Section Content */}
+                                {currentSection.isHistory ? (
+                                    <UsageHistory quizScores={quizScores} sections={APP_DATA.sections} labels={APP_DATA.labels} />
+                                ) : (
+                                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fade-in">
+                                        {/* Left Column */}
+                                        <div className="lg:col-span-7 space-y-8">
+                                            {/* Highlights */}
+                                            {currentSection.highlights && currentSection.highlights.length > 0 && (
+                                                <section>
+                                                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">{APP_DATA.labels.highlights}</h3>
+                                                    <div className="bg-white dark:bg-slate-800 p-6 rounded-lg border-l-4 border-brand-500 shadow-sm space-y-4">
+                                                        {currentSection.highlights.map((h, i) => (
+                                                            <div key={i} className="flex items-start">
+                                                                <i className="fas fa-check text-brand-500 mt-1 mr-3 text-xs"></i>
+                                                                <p className="text-base text-slate-700 dark:text-slate-300 brand-serif leading-relaxed">{h}</p>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </section>
+                                            )}
+
+                                            {/* Action Plan */}
+                                            {currentSection.actionPlan && currentSection.actionPlan.length > 0 && (
+                                                <section>
+                                                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">{APP_DATA.labels.actionPlan}</h3>
+                                                    <div className="bg-green-50 dark:bg-slate-900 p-6 rounded-lg border border-green-100 dark:border-slate-800">
+                                                        <ul className="space-y-3">
+                                                            {currentSection.actionPlan.map((a, i) => (
+                                                                <li key={i} className="flex items-center text-sm font-medium text-slate-800 dark:text-slate-200">
+                                                                    <span className="w-6 h-6 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center text-green-600 text-xs mr-3 shadow-sm border border-green-100 dark:border-slate-700">
+                                                                        {i + 1}
+                                                                    </span>
+                                                                    {a}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                </section>
+                                            )}
+
+                                            {/* Keywords & Theme Explorer */}
+                                            {currentSection.keywords && currentSection.keywords.length > 0 && (
+                                                <section>
+                                                    <div className="flex flex-wrap gap-2 mb-2">
+                                                        {currentSection.keywords.map((k, i) => (
+                                                            <button
+                                                                key={i}
+                                                                onClick={() => handleKeywordClick(k)}
+                                                                className="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded text-xs font-semibold uppercase tracking-wide hover:bg-brand-600 hover:text-white transition-colors cursor-pointer"
+                                                            >
+                                                                #{k}
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                    <ThemeExplorer themes={currentSection.themes} label={APP_DATA.labels.themes} />
+                                                </section>
+                                            )}
+
+                                            {/* Gallery */}
+                                            {currentSection.gallery && <GallerySection gallery={currentSection.gallery} />}
+
+                                            {/* Team */}
+                                            {currentSection.team && <TeamSection team={currentSection.team} />}
+                                        </div>
+
+                                        {/* Right Column */}
+                                        <div className="lg:col-span-5 space-y-8">
+                                            {/* Videos */}
+                                            {currentSection.videos && currentSection.videos.length > 0 && (
+                                                <section>
+                                                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">{APP_DATA.labels.videos}</h3>
+                                                    <div className="grid gap-4">
+                                                        {currentSection.videos.map((v, i) => <VideoCard key={i} video={v} label={APP_DATA.labels.watchVideo} />)}
+                                                    </div>
+                                                </section>
+                                            )}
+
+                                            {/* Flashcards */}
+                                            {currentSection.flashcards && currentSection.flashcards.length > 0 && (
+                                                <section>
+                                                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">{APP_DATA.labels.flashcards}</h3>
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                        {currentSection.flashcards.map((f, i) => <Flashcard key={i} front={f.front} back={f.back} />)}
+                                                    </div>
+                                                </section>
+                                            )}
+
+                                            {/* Self-Check Quiz */}
+                                            {currentSection.quiz && currentSection.quiz.length > 0 && (
+                                                <section>
+                                                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">{APP_DATA.labels.quiz}</h3>
+                                                    <SelfCheck
+                                                        questions={currentSection.quiz}
+                                                        answers={quizScores[currentSection.id] || {}}
+                                                        onAnswer={(qIdx, score) => handleQuizAnswer(currentSection.id, qIdx, score)}
+                                                        labels={APP_DATA.labels}
+                                                    />
+                                                </section>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Footer with Glossary */}
+                                <footer ref={footerRef} className="mt-16 border-t border-slate-100 dark:border-slate-800 pt-8">
+                                    <div className="flex flex-col md:flex-row justify-between items-start gap-8">
+                                        {/* Glossary */}
+                                        <div className="w-full md:w-2/3">
+                                            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{APP_DATA.labels.glossary}</label>
+                                            <div className="relative">
+                                                <select
+                                                    className="w-full p-4 pl-12 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-brand-500 outline-none appearance-none shadow-sm cursor-pointer brand-serif"
+                                                    onChange={(e) => setSelectedGlossaryKey(e.target.value)}
+                                                    value={selectedGlossaryKey}
+                                                >
+                                                    <option value="">{APP_DATA.meta.glossaryPrompt}</option>
+                                                    {displayGlossary.map((g, i) => <option key={i} value={g.key}>{g.t}</option>)}
+                                                </select>
+                                                <i className="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                                            </div>
+                                            {currentGlossaryDefinition && (
+                                                <div className="mt-4 p-5 bg-brand-50 dark:bg-slate-800 rounded-lg border-l-4 border-brand-500 text-slate-700 dark:text-slate-300 text-sm brand-serif leading-relaxed animate-fade-in shadow-sm">
+                                                    {currentGlossaryDefinition}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* Navigation Buttons */}
+                                        <div className="flex space-x-4 pt-6">
+                                            <button
+                                                onClick={() => { setActiveSection(Math.max(0, activeSection - 1)); window.scrollTo(0, 0); }}
+                                                disabled={activeSection === 0}
+                                                className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${activeSection === 0 ? 'bg-slate-100 text-slate-300' : 'bg-white text-brand-600 border border-slate-200 hover:border-brand-500 hover:bg-brand-600 hover:text-white shadow-md'}`}
+                                            >
+                                                <i className="fas fa-arrow-left"></i>
+                                            </button>
+                                            <button
+                                                onClick={() => { setActiveSection(Math.min(APP_DATA.sections.length - 1, activeSection + 1)); window.scrollTo(0, 0); }}
+                                                disabled={activeSection === APP_DATA.sections.length - 1}
+                                                className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${activeSection === APP_DATA.sections.length - 1 ? 'bg-slate-100 text-slate-300' : 'bg-brand-600 text-white hover:bg-brand-700 shadow-md hover:shadow-lg'}`}
+                                            >
+                                                <i className="fas fa-arrow-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {/* Copyright */}
+                                    <div className="flex flex-col md:flex-row justify-between items-center mt-10 text-[10px] text-slate-400 border-t border-slate-50 dark:border-slate-800 pt-6">
+                                        <div className="flex items-center gap-2 mb-2 md:mb-0">
+                                            <i className="fa-solid fa-university text-lg"></i>
+                                            <span>{APP_DATA.footer.uni}</span>
+                                        </div>
+                                        <div className="flex flex-col md:flex-row items-center gap-2 md:gap-6">
+                                            <span>© {APP_DATA.footer.year}</span>
+                                            <span className="hidden md:inline">•</span>
+                                            <span>Instructor: {APP_DATA.footer.prof}</span>
+                                        </div>
+                                    </div>
+                                </footer>
+                            </div>
+                        </main>
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
