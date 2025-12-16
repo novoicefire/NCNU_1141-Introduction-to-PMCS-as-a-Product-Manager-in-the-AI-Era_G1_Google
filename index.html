@@ -698,26 +698,491 @@
 
         // --- 1. Data Constants ---
 
-        // 術語表資料
-        const glossaryData = [
-            { k: "PM", alt: ["Product Manager", "產品經理"], tc: "產品經理（Product Manager），負責產品策略、跨部門協作、用戶體驗設計與資料分析等工作，是將技術與使用者需求結合的關鍵角色。" },
-            { k: "PRD", alt: ["Product Requirements Document"], tc: "產品需求文件（Product Requirements Document），詳細描述產品功能、規格與需求的文件，是 PM 撰寫需求的核心產出。" },
-            { k: "KPI", alt: ["Key Performance Indicator", "關鍵績效指標"], tc: "關鍵績效指標（Key Performance Indicator），用於衡量產品或專案成功與否的量化標準，PM 需制定並追蹤 KPIs。" },
-            { k: "A/B Testing", alt: ["分組測試", "A/B 測試"], tc: "透過隨機分配用戶至不同版本，比較兩種方案效果的實驗方法，常用於產品優化決策，PM 需設計和解讀測試結果。" },
-            { k: "跨部門協作", alt: ["Cross-functional Collaboration"], tc: "PM 工作需跨越工程、設計、營運、行銷等多個部門，橋接溝通並協調制定共識與推動落地策略。" },
-            { k: "產品生命周期", alt: ["Product Lifecycle"], tc: "產品從概念、開發、上市、成長到衰退的完整過程，PM 需理解各階段策略與市場定位。" },
-            { k: "Google", alt: ["Alphabet Inc."], tc: "Google（Alphabet Inc.）是全球科技平台／數位服務業龍頭，以搜尋引擎起家，擴展至廣告、雲端、人工智慧、平台生態系統與硬體產品等範圍。" },
-            { k: "Technical PM", alt: ["技術產品經理"], tc: "技術產品經理是 PM 的一種類型，需具備較深的技術背景，能與工程團隊深度合作並理解技術限制與可能性。" },
+        // 多語言翻譯資料
+        const i18n = {
+            zh: {
+                meta: {
+                    title: "Google PM 產品經理職涯探索",
+                    slogan: "互動式學習物件",
+                    copyright: "Copyright © 2025. All Rights Reserved.",
+                    glossaryPrompt: "選擇術語以查看說明...",
+                },
+                labels: {
+                    nav: "導覽目錄",
+                    highlights: "重點摘要",
+                    actionPlan: "行動計畫",
+                    keywords: "關鍵字",
+                    flashcards: "學習卡",
+                    quiz: "自我檢視",
+                    themes: "主題探索",
+                    videos: "精選短片",
+                    glossary: "術語表",
+                    yes: "是 (+1)",
+                    unsure: "不確定 (0)",
+                    no: "否 (-1)",
+                    totalScore: "學習指數",
+                    gaugeLabel: "總分",
+                    userProfile: "學習歷程",
+                    historyTitle: "自我檢視歷程",
+                    watchVideo: "觀看影片",
+                    switchLang: "English",
+                    important: "重要",
+                    flipHint: "點擊翻轉",
+                    teamVideos: "團隊自我介紹影片",
+                },
+                ui: {
+                    hero0Title: "探索 Google PM 的世界",
+                    hero1Quote: "Google PM 是科技業最受歡迎的職位之一",
+                    hero2Title: "核心能力需求",
+                    hero2Desc: "成為 Google PM 需要具備的關鍵能力",
+                    hero3Title: "具體技能對應",
+                    hero3Desc: "將核心能力轉化為可實踐的具體技能",
+                    hero4Title: "學習路線連結",
+                    hero4Desc: "從課堂到職涯的能力養成路線",
+                    hero5Title: "我們的團隊",
+                    hero5Desc: "認識專案製作團隊成員",
+                    stats: [
+                        { num: "150K+", label: "平均年薪 (USD)" },
+                        { num: "80%", label: "跨部門協作" },
+                        { num: "5+", label: "核心技能" },
+                        { num: "∞", label: "成長機會" }
+                    ],
+                },
+            },
+            en: {
+                meta: {
+                    title: "Google PM Career Exploration",
+                    slogan: "Interactive Learning Object",
+                    copyright: "Copyright © 2025. All Rights Reserved.",
+                    glossaryPrompt: "Select a term to view its definition...",
+                },
+                labels: {
+                    nav: "Navigation",
+                    highlights: "Key Highlights",
+                    actionPlan: "Action Plan",
+                    keywords: "Keywords",
+                    flashcards: "Flashcards",
+                    quiz: "Self-Check",
+                    themes: "Theme Explorer",
+                    videos: "Featured Videos",
+                    glossary: "Glossary",
+                    yes: "Yes (+1)",
+                    unsure: "Not Sure (0)",
+                    no: "No (-1)",
+                    totalScore: "Learning Index",
+                    gaugeLabel: "Total Score",
+                    userProfile: "Learning Profile",
+                    historyTitle: "Self-Check History",
+                    watchVideo: "Watch Video",
+                    switchLang: "中文",
+                    important: "Important",
+                    flipHint: "Click to flip",
+                    teamVideos: "Team Introduction Videos",
+                },
+                ui: {
+                    hero0Title: "Explore the World of Google PM",
+                    hero1Quote: "Google PM is one of the most sought-after roles in tech",
+                    hero2Title: "Core Competencies",
+                    hero2Desc: "Key abilities required to become a Google PM",
+                    hero3Title: "Specific Skills Mapping",
+                    hero3Desc: "Translating core abilities into actionable skills",
+                    hero4Title: "Learning Pathway",
+                    hero4Desc: "From classroom to career skill development",
+                    hero5Title: "Our Team",
+                    hero5Desc: "Meet the project team members",
+                    stats: [
+                        { num: "150K+", label: "Avg. Salary (USD)" },
+                        { num: "80%", label: "Cross-team Collab" },
+                        { num: "5+", label: "Core Skills" },
+                        { num: "∞", label: "Growth Opportunities" }
+                    ],
+                },
+            },
+        };
+
+        // 章節標題翻譯
+        const sectionTitles = {
+            zh: ["Google PM 概覽", "薪資待遇與市場分析", "核心能力需求", "具體技能對應", "學習路線連結", "團隊介紹", "使用歷程"],
+            en: ["Google PM Overview", "Salary & Market Analysis", "Core Competencies", "Skills Mapping", "Learning Pathway",
+                "Team Introduction", "Usage History"],
+        };
+
+        // 術語表資料（雙語）
+        const glossaryDataBilingual = {
+            zh: [
+                { k: "PM", alt: ["Product Manager", "產品經理"], tc: "產品經理（Product Manager），負責產品策略、跨部門協作、用戶體驗設計與資料分析等工作，是將技術與使用者需求結合的關鍵角色。" },
+                { k: "PRD", alt: ["Product Requirements Document"], tc: "產品需求文件（Product Requirements Document），詳細描述產品功能、規格與需求的文件，是 PM 撰寫需求的核心產出。" },
+                { k: "KPI", alt: ["Key Performance Indicator", "關鍵績效指標"], tc: "關鍵績效指標（Key Performance Indicator），用於衡量產品或專案成功與否的量化標準，PM 需制定並追蹤 KPIs。" },
+                { k: "A/B Testing", alt: ["分組測試", "A/B 測試"], tc: "透過隨機分配用戶至不同版本，比較兩種方案效果的實驗方法，常用於產品優化決策，PM 需設計和解讀測試結果。" },
+                { k: "跨部門協作", alt: ["Cross-functional Collaboration"], tc: "PM 工作需跨越工程、設計、營運、行銷等多個部門，橋接溝通並協調制定共識與推動落地策略。" },
+                { k: "產品生命周期", alt: ["Product Lifecycle"], tc: "產品從概念、開發、上市、成長到衰退的完整過程，PM 需理解各階段策略與市場定位。" },
+                { k: "Google", alt: ["Alphabet Inc."], tc: "Google（Alphabet Inc.）是全球科技平台／數位服務業龍頭，以搜尋引擎起家，擴展至廣告、雲端、人工智慧、平台生態系統與硬體產品等範圍。" },
+                { k: "Technical PM", alt: ["技術產品經理"], tc: "技術產品經理是 PM 的一種類型，需具備較深的技術背景，能與工程團隊深度合作並理解技術限制與可能性。" },
+            ],
+            en: [
+                { k: "PM", alt: ["Product Manager"], tc: "Product Manager (PM) is responsible for product strategy, cross-functional collaboration, user experience design, and data analysis. PMs bridge the gap between technology and user needs." },
+                { k: "PRD", alt: ["Product Requirements Document"], tc: "Product Requirements Document (PRD) is a detailed document describing product features, specifications, and requirements. It's a core deliverable for PMs." },
+                { k: "KPI", alt: ["Key Performance Indicator"], tc: "Key Performance Indicator (KPI) is a quantifiable metric used to measure the success of a product or project. PMs need to define and track KPIs." },
+                { k: "A/B Testing", alt: ["Split Testing"], tc: "A/B Testing is an experimental method that randomly assigns users to different versions to compare the effectiveness of two solutions. It's commonly used for product optimization decisions." },
+                { k: "Cross-functional Collaboration", alt: ["跨部門協作"], tc: "PM work spans across engineering, design, operations, marketing, and other departments. PMs must bridge communication and coordinate consensus to drive implementation strategies." },
+                { k: "Product Lifecycle", alt: ["產品生命周期"], tc: "Product Lifecycle covers the entire journey from concept, development, launch, growth, to decline. PMs need to understand strategies and market positioning for each stage." },
+                { k: "Google", alt: ["Alphabet Inc."], tc: "Google (Alphabet Inc.) is a global technology platform and digital services leader. Starting as a search engine, it has expanded to advertising, cloud, AI, platform ecosystems, and hardware products." },
+                { k: "Technical PM", alt: ["技術產品經理"], tc: "Technical Product Manager is a type of PM with deeper technical background, capable of working closely with engineering teams and understanding technical constraints and possibilities." },
+            ],
+        };
+
+        // 影片列表（團隊成員自我介紹）- 雙語
+        const teamVideosBilingual = {
+            zh: [
+                { title: "Neil Yeh - 自我介紹", url: "https://youtu.be/7rQW9K7U9nY?si=vVZR9yLGjDbqGfA2" },
+                { title: "Alex Yang - 自我介紹", url: "https://youtu.be/xfbW9uB0P3Q?si=xufo2IQE97iQIE_7" },
+                { title: "Lizard Lu - 自我介紹", url: "https://youtu.be/tJLdz9Az5kc?si=nt0RJlpWeVW_Wd4U" },
+                { title: "Skyler Gan - 自我介紹", url: "https://youtu.be/hqsLfioT8dM?si=7g-WSXGcqDokNVJh" },
+                { title: "Shereen Setiawan - 自我介紹", url: "https://youtu.be/rljUeDQWIcQ?si=RgsmdNmT09albjWC" },
+            ],
+            en: [
+                { title: "Neil Yeh - Self Introduction", url: "https://youtu.be/7rQW9K7U9nY?si=vVZR9yLGjDbqGfA2" },
+                { title: "Alex Yang - Self Introduction", url: "https://youtu.be/xfbW9uB0P3Q?si=xufo2IQE97iQIE_7" },
+                { title: "Lizard Lu - Self Introduction", url: "https://youtu.be/tJLdz9Az5kc?si=nt0RJlpWeVW_Wd4U" },
+                { title: "Skyler Gan - Self Introduction", url: "https://youtu.be/hqsLfioT8dM?si=7g-WSXGcqDokNVJh" },
+                { title: "Shereen Setiawan - Self Introduction", url: "https://youtu.be/rljUeDQWIcQ?si=RgsmdNmT09albjWC" },
+            ],
+        };
+
+        // 影片列表雙語資料
+        const videoListBilingual = {
+            zh: [
+                { id: "rWeibD3eefU", title: "什麼是產品經理？(Google 官方)" },
+                { id: "EARt3fJp5Cg", title: "Google 產品經理面試模擬" },
+                { id: "JznCbX8Pqkc", title: "Google PM 職涯分享" },
+                { id: "n_797y_D9D0", title: "如何撰寫產品需求文檔 (PRD)" },
+                { id: "0w440W50-1g", title: "PM 必備的數據分析技能" }
+            ],
+            en: [
+                { id: "rWeibD3eefU", title: "What is a Product Manager? (Google Official)" },
+                { id: "EARt3fJp5Cg", title: "Google PM Mock Interview" },
+                { id: "JznCbX8Pqkc", title: "Google PM Career Sharing" },
+                { id: "n_797y_D9D0", title: "How to Write a PRD" },
+                { id: "0w440W50-1g", title: "Data Analysis Skills for PMs" }
+            ]
+        };
+
+        // 為了向後兼容，保留原始 glossaryData 和 videoList 作為中文版本
+        const glossaryData = glossaryDataBilingual.zh;
+        const videoList = videoListBilingual.zh;
+
+        // 章節英文翻譯資料
+        const sectionsEn = [
+            {
+                id: 0,
+                title: "Google PM Overview",
+                icon: "fa-building",
+                highlights: [
+                    "Google PM's core mission is to bridge technology with user needs, formulating product strategies through cross-functional collaboration and data analysis",
+                    "Responsibilities span product strategy, cross-functional collaboration, UX design, data analysis, and product metrics",
+                    "Career levels range from Junior → Mid-level → Senior, with common roles including Product Manager, Technical PM, and Product Strategist"
+                ],
+                actionPlan: [
+                    "Understand Google's position as a global tech platform and its main product lines",
+                    "Learn about PM's core tasks and scope of work",
+                    "Assess the gap between your skills and PM job requirements"
+                ],
+                keywords: ["PM", "Google", "Product Manager", "Cross-functional"],
+                themes: [
+                    {
+                        title: "Company Overview",
+                        subThemes: [
+                            { title: "Company Name", content: "Google (Alphabet Inc.)" },
+                            { title: "Industry", content: "Global Tech Platform / Digital Services" },
+                            { title: "Description", content: "Started as a search engine, expanded to advertising, cloud, AI, platform ecosystems, and hardware" },
+                            { title: "Main Products", content: "Google Search, Android, YouTube, Google Cloud, AI Services, Hardware" },
+                            { title: "Taiwan Presence", content: "Google has offices in Taiwan covering technical support, operations, and management positions" }
+                        ]
+                    },
+                    {
+                        title: "Job Category",
+                        subThemes: [
+                            { title: "Title", content: "Product Manager / Product Management" },
+                            { title: "Work Areas", content: "Product strategy, cross-functional collaboration, UX design, data analysis, product metrics" },
+                            { title: "Levels", content: "Junior → Mid-level → Senior" },
+                            { title: "Common Types", content: "Product Manager, Technical PM, Product Strategist" }
+                        ]
+                    },
+                    {
+                        title: "Job Requirements Overview",
+                        subThemes: [
+                            { title: "Primary Purpose", content: "Bridge technology with user needs through cross-functional collaboration and data analysis to formulate product strategies" },
+                            { title: "Business Insight", content: "Strong business acumen and product thinking" },
+                            { title: "Collaboration", content: "Excellent cross-functional collaboration and communication skills" },
+                            { title: "Data-Driven", content: "Data-driven decision making" },
+                            { title: "Product Understanding", content: "Understanding of product lifecycle and market strategy" },
+                            { title: "Complexity", content: "Navigate complex, uncertain situations to set direction and measure outcomes" }
+                        ]
+                    }
+                ],
+                flashcards: [
+                    { front: "What is a PM?", back: "Product Manager, responsible for bridging technology with user needs through cross-functional collaboration to formulate and execute product strategies." },
+                    { front: "Google PM's core mission?", back: "Cross-functional collaboration and data analysis to formulate product strategies and drive product delivery." },
+                    { front: "PM career levels?", back: "Junior → Mid-level → Senior, common types include Product Manager, Technical PM, Product Strategist." }
+                ],
+                quiz: [
+                    { q: "Do I understand Google's position as a global tech platform?" },
+                    { q: "Can I explain PM's core tasks and scope?" },
+                    { q: "Do I understand common PM skill requirements?" }
+                ]
+            },
+            {
+                id: 1,
+                title: "Salary & Market Analysis",
+                icon: "fa-dollar-sign",
+                highlights: [
+                    "Entry-level PM average: ~NT$80,000/month",
+                    "Senior PM can reach ~NT$250,000/month",
+                    "Technical Program Manager median total comp: ~NT$3M/year"
+                ],
+                actionPlan: [
+                    "Understand Google PM salary ranges in Taiwan",
+                    "Compare data differences across salary sources",
+                    "Evaluate salary growth potential in career development"
+                ],
+                keywords: ["Salary", "Compensation", "Market Analysis"],
+                themes: [
+                    {
+                        title: "Google PM Salary in Taiwan",
+                        subThemes: [
+                            { title: "PM Salary Range", content: "Based on anonymous salary data: Entry-level PM ~NT$80,000/month; Senior PM can reach ~NT$250,000/month (NodeFlair user data)" },
+                            { title: "Other Public Sources", content: "Glassdoor shows Google PM ~NT$2.1M–NT$2.3M/year (estimated base salary); Technical Program Manager median total comp ~NT$3M" }
+                        ]
+                    }
+                ],
+                flashcards: [
+                    { front: "Entry-level PM monthly salary?", back: "~NT$80,000/month" },
+                    { front: "Senior PM salary ceiling?", back: "Can reach ~NT$250,000/month" },
+                    { front: "Technical Program Manager annual comp?", back: "Median total comp ~NT$3M" }
+                ],
+                quiz: [
+                    { q: "Do I understand Google PM salary levels in Taiwan?" },
+                    { q: "Can I differentiate salary differences across PM levels?" }
+                ]
+            },
+            {
+                id: 2,
+                title: "Core Competencies",
+                icon: "fa-brain",
+                highlights: [
+                    "Product Strategy & Business Judgment: Identify market and user needs, build clear product value hypotheses",
+                    "Cross-functional Collaboration & Communication: Bridge engineering, design, operations, and marketing teams",
+                    "Data Analysis & Decision Making: Make judgments based on data and quantitative analysis"
+                ],
+                actionPlan: [
+                    "Develop product strategy thinking, learn to define product direction and KPIs",
+                    "Practice cross-functional communication, learn to resolve conflicts of interest",
+                    "Strengthen data analysis skills, learn to design and interpret A/B Testing"
+                ],
+                keywords: ["Product Strategy", "Cross-functional", "Data Analysis", "KPI"],
+                themes: [
+                    {
+                        title: "Product Strategy & Business Judgment",
+                        subThemes: [
+                            { title: "Core Skill", content: "Identify market and user needs, build clear product value hypotheses" },
+                            { title: "KPI Setting", content: "Define product direction and Key Performance Indicators (KPIs)" },
+                            { title: "Execution", content: "Transform abstract requirements into executable plans" },
+                            { title: "Core Question", content: "Focus on 'what's worth doing', not just executing a requirements list" }
+                        ]
+                    },
+                    {
+                        title: "Cross-functional Collaboration",
+                        subThemes: [
+                            { title: "Scope", content: "Work spans engineering, design, operations, marketing, and more" },
+                            { title: "Bridge Role", content: "PMs must bridge communication, build consensus, and drive implementation" },
+                            { title: "Communication Essence", content: "Communication is not just information transfer, but influencing decisions and resolving conflicts" }
+                        ]
+                    },
+                    {
+                        title: "Data Analysis & Decision Making",
+                        subThemes: [
+                            { title: "Data Judgment", content: "Make judgments based on data and quantitative analysis" },
+                            { title: "A/B Testing", content: "Design and interpret A/B Testing to explain market and user behavior" },
+                            { title: "Insights", content: "Simplify large amounts of data into actionable insights" }
+                        ]
+                    }
+                ],
+                flashcards: [
+                    { front: "Core question for product strategy?", back: "'What's worth doing', not just executing a requirements list" },
+                    { front: "Essence of cross-functional collaboration?", back: "Communication is not just information transfer, but influencing decisions and resolving conflicts" },
+                    { front: "Goal of data analysis?", back: "Simplify large amounts of data into actionable insights" }
+                ],
+                quiz: [
+                    { q: "Can I explain the core of product strategy thinking?" },
+                    { q: "Do I understand the importance of cross-functional collaboration?" },
+                    { q: "Do I have basic data analysis capabilities?" }
+                ]
+            },
+            {
+                id: 3,
+                title: "Skills Mapping",
+                icon: "fa-tools",
+                highlights: [
+                    "Product Planning & Requirements: Write PRDs, user scenario analysis, set product milestones",
+                    "Cross-functional Coordination & Project Management: Progress coordination, resource adjustment, timeline & quality management",
+                    "Data Analysis & Reporting Tools: Proficiency in Google Analytics, Looker, SQL, BI Tools"
+                ],
+                actionPlan: [
+                    "Learn to write Product Requirements Documents (PRD)",
+                    "Practice project management and timeline planning",
+                    "Become familiar with data analysis tools like Google Analytics or SQL"
+                ],
+                keywords: ["PRD", "Project Management", "A/B Testing", "Google Analytics"],
+                themes: [
+                    {
+                        title: "Product Planning & Requirements",
+                        subThemes: [
+                            { title: "Requirements Doc", content: "Write Product Requirements Documents (PRD)" },
+                            { title: "Scenario Analysis", content: "User scenario analysis" },
+                            { title: "Milestones", content: "Set product milestones and KPIs" }
+                        ]
+                    },
+                    {
+                        title: "Cross-functional & Project Management",
+                        subThemes: [
+                            { title: "Coordination", content: "Responsible for progress coordination and resource adjustment" },
+                            { title: "Intermediary Role", content: "Act as cross-team communication intermediary" },
+                            { title: "Quality Management", content: "Manage timelines and quality requirements" }
+                        ]
+                    },
+                    {
+                        title: "Data Analysis & Reporting Tools",
+                        subThemes: [
+                            { title: "Tool Proficiency", content: "Familiar with Google Analytics / Looker / SQL / BI Tools" },
+                            { title: "Data Organization", content: "Organize and interpret data charts" },
+                            { title: "Recommendations", content: "Provide data-supported recommendations" }
+                        ]
+                    }
+                ],
+                flashcards: [
+                    { front: "What is PRD?", back: "Product Requirements Document, a detailed document describing product features, specifications, and requirements." },
+                    { front: "What data tools should PMs know?", back: "Google Analytics, Looker, SQL, BI Tools, etc." },
+                    { front: "Core tasks of project management?", back: "Progress coordination, resource adjustment, timeline & quality management" }
+                ],
+                quiz: [
+                    { q: "Can I write a basic PRD?" },
+                    { q: "Do I have basic project management skills?" },
+                    { q: "Am I familiar with at least one data analysis tool?" }
+                ]
+            },
+            {
+                id: 4,
+                title: "Learning Pathway",
+                icon: "fa-road",
+                highlights: [
+                    "Data Organization & Analysis: Learn data organization techniques and data visualization",
+                    "Requirements Analysis & Problem Decomposition: Practice structured thinking and solution comparison",
+                    "Project Coordination & Communication: Take on coordinator roles in team projects"
+                ],
+                actionPlan: [
+                    "Practice data organization and visualization tools in class",
+                    "Practice decomposing complex problems into smallest units",
+                    "Actively take on coordinator roles in team projects"
+                ],
+                keywords: ["Learning Path", "Classroom Connection", "Skill Development"],
+                themes: [
+                    {
+                        title: "Data Organization & Analysis",
+                        subThemes: [
+                            { title: "Classroom Learning", content: "Learn data organization techniques in class" },
+                            { title: "Tool Practice", content: "Practice data visualization with tools (e.g., Google Sheets, Power BI)" }
+                        ]
+                    },
+                    {
+                        title: "Requirements Analysis & Problem Decomposition",
+                        subThemes: [
+                            { title: "Core Skill", content: "PMs need the ability to decompose problems into smallest units" },
+                            { title: "Classroom Practice", content: "Practice structured thinking and solution comparison in class" }
+                        ]
+                    },
+                    {
+                        title: "Project Coordination & Communication",
+                        subThemes: [
+                            { title: "Team Role", content: "Take on coordinator roles in team projects" },
+                            { title: "Communication Practice", content: "Practice explaining decisions, giving feedback, and consolidating multi-party requirements" }
+                        ]
+                    }
+                ],
+                flashcards: [
+                    { front: "How to develop data analysis skills?", back: "Learn data organization in class, practice visualization with Google Sheets or Power BI." },
+                    { front: "What problem-solving ability do PMs need?", back: "Ability to decompose problems into smallest units, practice structured thinking." },
+                    { front: "How to practice project coordination?", back: "Take on coordinator roles in team projects, practice communication and consolidating requirements." }
+                ],
+                quiz: [
+                    { q: "Have I practiced data organization in class?" },
+                    { q: "Can I decompose complex problems into small units?" },
+                    { q: "Have I taken on a coordinator role in a team?" }
+                ]
+            },
+            {
+                id: 5,
+                title: "Team Introduction",
+                icon: "fa-users",
+                highlights: [
+                    "Meet the project team members and their roles",
+                    "Watch team member self-introduction videos",
+                    "Learn about the team's collaboration insights"
+                ],
+                actionPlan: [
+                    "Understand team members' role assignments",
+                    "Watch member self-introduction videos",
+                    "Read team learning reflections"
+                ],
+                keywords: ["Team", "Collaboration", "Self-Introduction"],
+                themes: [
+                    {
+                        title: "Team Reflection",
+                        subThemes: [
+                            { title: "Reflection", content: "Through this project, we gained deep understanding of Google PM job requirements and core competencies. We learned that product managers are not just requirement executors, but strategy formulators and cross-functional communication bridges. This exploration gave us clearer career direction." }
+                        ]
+                    }
+                ],
+                flashcards: [],
+                quiz: [
+                    { q: "Do I understand the team members' roles?" },
+                    { q: "Have I watched the team's self-introduction videos?" }
+                ],
+                team: {
+                    members: [
+                        { name: "Neil Yeh", role: "UI Design", img: "https://i.pravatar.cc/150?img=11" },
+                        { name: "Alex Yang", role: "Integration & Website", img: "photo/Alex Yang.jpg" },
+                        { name: "Lizard Lu", role: "Data & Content", img: "photo/Lizard Lu.jpg" },
+                        { name: "Skyler Gan", role: "Team Member", img: "photo/Skyler Gan.jpg" },
+                        { name: "Shereen Setiawan", role: "Team Member", img: "https://i.pravatar.cc/150?img=9" }
+                    ],
+                    reflection: "Through this project, we gained deep understanding of Google PM job requirements and core competencies. We learned that product managers are not just requirement executors, but strategy formulators and cross-functional communication bridges. This exploration gave us clearer career direction."
+                }
+            },
+            {
+                id: 6,
+                title: "Usage History",
+                icon: "fa-tachometer-alt",
+                highlights: [
+                    "Review your learning progress",
+                    "Track quiz scores and status"
+                ],
+                actionPlan: [
+                    "Regularly check completion rate",
+                    "Review low-scoring items"
+                ],
+                keywords: ["Learning Analytics", "Progress Tracking"],
+                themes: [],
+                flashcards: [],
+                quiz: [],
+                isHistory: true
+            }
         ];
 
-        // 影片列表（團隊成員自我介紹）
-        const videoList = [
-            { title: "Neil Yeh - 自我介紹", url: "https://youtu.be/7rQW9K7U9nY?si=vVZR9yLGjDbqGfA2" },
-            { title: "Alex Yang - 自我介紹", url: "https://youtu.be/xfbW9uB0P3Q?si=xufo2IQE97iQIE_7" },
-            { title: "Lizard Lu - 自我介紹", url: "https://youtu.be/tJLdz9Az5kc?si=nt0RJlpWeVW_Wd4U" },
-            { title: "Skyler Gan - 自我介紹", url: "https://youtu.be/hqsLfioT8dM?si=7g-WSXGcqDokNVJh" },
-            { title: "Shereen Setiawan - 自我介紹", url: "https://youtu.be/rljUeDQWIcQ?si=RgsmdNmT09albjWC" },
-        ];
+        // Footer 翻譯
+        const footerBilingual = {
+            zh: { prof: "駱世民教授", uni: "國立暨南國際大學", year: "2025" },
+            en: { prof: "Prof. Shih-Min Lo", uni: "National Chi Nan University", year: "2025" }
+        };
 
         // 章節資料
         const APP_DATA = {
@@ -1089,15 +1554,19 @@
             };
 
             return (
-                <div className="flex flex-col items-center justify-center p-4">
+                <div className=" flex flex-col items-center justify-center p-4">
                     <div className="relative w-64 h-32 overflow-hidden mb-4">
                         <svg viewBox="0 0 200 110" className="w-full h-full">
                             {segments.map((seg, i) => {
                                 const start = (i * 30);
                                 const end = ((i + 1) * 30);
-                                return <path key={i} d={createArc(start, end)} fill="none" stroke={seg.color} strokeWidth={stroke} strokeDasharray="1 1" />;
+                                return (
+                                    <path key={i} d={createArc(start, end)} fill="none" stroke={seg.color} strokeWidth={stroke}
+                                        strokeDasharray="1 1" />);
                             })}
-                            <g className="gauge-needle" style={{ transform: `rotate(${angle}deg)`, transformOrigin: "100px 100px" }}>
+                            <g className="gauge-needle" style={{
+                                transform: `rotate(${angle}deg)`, transformOrigin: "100px 100px"
+                            }}>
                                 <polygon points="100,100 95,20 100,10 105,20" fill="#0ea5e9" />
                                 <circle cx="100" cy="100" r="5" fill="#0ea5e9" />
                             </g>
@@ -1137,8 +1606,10 @@
                     <div className="mb-3">
                         <select
                             className="w-full p-3 rounded-xl border-0 bg-white/50 dark:bg-gray-700/50 text-sm font-medium focus:ring-2 focus:ring-google-blue outline-none transition-all"
-                            value={selectedMajor}
-                            onChange={(e) => { setSelectedMajor(Number(e.target.value)); setSelectedMinor(0); }}
+                            value={selectedMajor} onChange={(e) => {
+                                setSelectedMajor(Number(e.target.value));
+                                setSelectedMinor(0);
+                            }}
                         >
                             {themes.map((t, i) => <option key={i} value={i}>{t.title}</option>)}
                         </select>
@@ -1147,12 +1618,12 @@
                         <div className="animate-fade-in">
                             <select
                                 className="w-full p-3 rounded-xl border-0 bg-white/50 dark:bg-gray-700/50 text-sm mb-3 outline-none transition-all"
-                                value={selectedMinor}
-                                onChange={(e) => setSelectedMinor(Number(e.target.value))}
+                                value={selectedMinor} onChange={(e) => setSelectedMinor(Number(e.target.value))}
                             >
                                 {subThemes.map((t, i) => <option key={i} value={i}>{t.title}</option>)}
                             </select>
-                            <div className="p-4 bg-white/70 dark:bg-gray-800/70 rounded-xl text-gray-700 dark:text-gray-300 leading-relaxed text-sm">
+                            <div
+                                className="p-4 bg-white/70 dark:bg-gray-800/70 rounded-xl text-gray-700 dark:text-gray-300 leading-relaxed text-sm">
                                 {minorTheme?.content}
                             </div>
                         </div>
@@ -1168,7 +1639,9 @@
                     {questions.map((q, idx) => {
                         const val = answers[idx];
                         return (
-                            <div key={idx} className="glass premium-card p-4 rounded-2xl stagger-item animate-scale-in" style={{ animationDelay: `${idx * 0.1}s` }}>
+                            <div key={idx} className="glass premium-card p-4 rounded-2xl stagger-item animate-scale-in" style={{
+                                animationDelay: `${idx * 0.1}s`
+                            }}>
                                 <p className="font-medium text-gray-800 dark:text-gray-200 mb-3 text-sm">{idx + 1}. {q.q}</p>
                                 <div className="flex gap-2">
                                     {[
@@ -1176,9 +1649,7 @@
                                         { v: 0, l: labels.unsure, c: 'bg-google-yellow hover:bg-google-yellow/80', icon: 'fa-question' },
                                         { v: -1, l: labels.no, c: 'bg-google-red hover:bg-google-red/80', icon: 'fa-times' }
                                     ].map(opt => (
-                                        <button
-                                            key={opt.v}
-                                            onClick={() => onAnswer(idx, opt.v)}
+                                        <button key={opt.v} onClick={() => onAnswer(idx, opt.v)}
                                             className={`flex-1 py-2 px-3 rounded-full text-xs font-bold transition-all btn-premium flex items-center justify-center gap-1 ${val === opt.v ? opt.c + ' text-white ring-2 ring-offset-2 ring-gray-300' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'}`}
                                         >
                                             <i className={`fas ${opt.icon} text-[10px]`}></i>
@@ -1197,13 +1668,18 @@
         const Flashcard = ({ front, back }) => {
             const [flipped, setFlipped] = useState(false);
             return (
-                <div className="group w-full h-36 cursor-pointer perspective-1000" onClick={() => setFlipped(!flipped)} onMouseLeave={() => setFlipped(false)}>
-                    <div className={`relative w-full h-full text-center transition-transform duration-700 transform-style-3d ${flipped ? 'rotate-y-180' : ''}`}>
-                        <div className="absolute w-full h-full backface-hidden glass premium-card rounded-2xl flex flex-col items-center justify-center p-4 z-10">
+                <div className="group w-full h-36 cursor-pointer perspective-1000" onClick={() => setFlipped(!flipped)}
+                    onMouseLeave={() => setFlipped(false)}>
+                    <div className={`relative w-full h-full text-center transition-transform duration-700 transform-style-3d
+                ${flipped ? 'rotate-y-180' : ''}`}>
+                        <div
+                            className="absolute w-full h-full backface-hidden glass premium-card rounded-2xl flex flex-col items-center justify-center p-4 z-10">
                             <h3 className="text-base font-bold gradient-text">{front}</h3>
-                            <p className="text-[10px] text-gray-400 mt-2 flex items-center"><i className="fas fa-hand-pointer mr-1"></i>點擊翻轉</p>
+                            <p className="text-[10px] text-gray-400 mt-2 flex items-center"><i
+                                className="fas fa-hand-pointer mr-1"></i>點擊翻轉</p>
                         </div>
-                        <div className="absolute w-full h-full backface-hidden bg-gradient-to-br from-google-blue to-google-green text-white rounded-2xl shadow-google flex items-center justify-center p-4 rotate-y-180">
+                        <div
+                            className="absolute w-full h-full backface-hidden bg-gradient-to-br from-google-blue to-google-green text-white rounded-2xl shadow-google flex items-center justify-center p-4 rotate-y-180">
                             <p className="text-sm font-medium leading-relaxed">{back}</p>
                         </div>
                     </div>
@@ -1218,22 +1694,30 @@
                 return (match && match[2].length === 11) ? match[2] : null;
             };
             const videoID = getYouTubeID(video.url);
-            const thumbUrl = videoID ? `https://img.youtube.com/vi/${videoID}/mqdefault.jpg` : 'https://via.placeholder.com/320x180';
+            const thumbUrl = videoID ? `https://img.youtube.com/vi/${videoID}/mqdefault.jpg` :
+                'https://via.placeholder.com/320x180';
 
             return (
                 <a href={video.url} target="_blank" rel="noopener noreferrer" className="block group">
                     <div className="glass premium-card rounded-2xl overflow-hidden">
                         <div className="relative aspect-video bg-gray-100 dark:bg-gray-700 overflow-hidden">
-                            <img src={thumbUrl} alt={video.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all">
-                                <div className="w-14 h-14 rounded-full bg-google-red flex items-center justify-center shadow-lg transform scale-75 group-hover:scale-100 transition-all">
+                            <img src={thumbUrl} alt={video.title}
+                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                            <div
+                                className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all">
+                                <div
+                                    className="w-14 h-14 rounded-full bg-google-red flex items-center justify-center shadow-lg transform scale-75 group-hover:scale-100 transition-all">
                                     <i className="fas fa-play text-white text-xl ml-1"></i>
                                 </div>
                             </div>
                         </div>
                         <div className="p-4">
-                            <h4 className="font-semibold text-gray-800 dark:text-white text-sm line-clamp-2 mb-2 group-hover:text-google-blue transition-colors">{video.title}</h4>
-                            <span className="text-xs text-google-red font-bold uppercase tracking-wider flex items-center">{label} <i className="fas fa-external-link-alt ml-1 text-[10px]"></i></span>
+                            <h4
+                                className="font-semibold text-gray-800 dark:text-white text-sm line-clamp-2 mb-2 group-hover:text-google-blue transition-colors">
+                                {video.title}</h4>
+                            <span
+                                className="text-xs text-google-red font-bold uppercase tracking-wider flex items-center">{label}
+                                <i className="fas fa-external-link-alt ml-1 text-[10px]"></i></span>
                         </div>
                     </div>
                 </a>
@@ -1247,8 +1731,10 @@
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
                     {gallery.map((img, idx) => (
                         <div key={idx} className="group relative overflow-hidden rounded-xl shadow-md cursor-pointer aspect-video">
-                            <img src={img.src} alt={img.caption} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                            <img src={img.src} alt={img.caption}
+                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                            <div
+                                className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                                 <p className="text-white text-sm font-medium">{img.caption}</p>
                             </div>
                         </div>
@@ -1265,11 +1751,13 @@
                     <div className="flex flex-wrap justify-center gap-8 mb-8">
                         {team.members.map((member, idx) => (
                             <div key={idx} className="flex flex-col items-center">
-                                <div className="w-20 h-20 rounded-full overflow-hidden mb-3 border-2 border-brand-200 dark:border-brand-800 shadow-lg">
+                                <div
+                                    className="w-20 h-20 rounded-full overflow-hidden mb-3 border-2 border-brand-200 dark:border-brand-800 shadow-lg">
                                     <img src={member.img} alt={member.name} className="w-full h-full object-cover" />
                                 </div>
                                 <h4 className="font-bold text-slate-900 dark:text-white text-sm">{member.name}</h4>
-                                <p className="text-xs text-accent-600 dark:text-accent-400 font-semibold uppercase tracking-wider">{member.role}</p>
+                                <p className="text-xs text-accent-600 dark:text-accent-400 font-semibold uppercase tracking-wider">
+                                    {member.role}</p>
                             </div>
                         ))}
                     </div>
@@ -1285,24 +1773,29 @@
 
         // Usage History Component
         const UsageHistory = ({ quizScores, sections, labels }) => {
-            const totalScore = Object.values(quizScores).reduce((acc, sec) => acc + Object.values(sec).reduce((a, b) => a + b, 0), 0);
+            const totalScore = Object.values(quizScores).reduce((acc, sec) => acc + Object.values(sec).reduce((a, b) => a +
+                b, 0), 0);
             const maxQuestions = sections.reduce((acc, sec) => acc + (sec.quiz?.length || 0), 0);
 
             return (
                 <div className="space-y-6 animate-fade-in">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center">
-                            <h3 className="text-lg font-bold text-brand-600 mb-2 brand-serif w-full text-left border-b pb-2">{labels.totalScore}</h3>
+                        <div
+                            className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center">
+                            <h3 className="text-lg font-bold text-brand-600 mb-2 brand-serif w-full text-left border-b pb-2">
+                                {labels.totalScore}</h3>
                             <GaugeChart score={totalScore} max={maxQuestions} label={labels.gaugeLabel} />
                         </div>
-                        <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
+                        <div
+                            className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
                             <h3 className="text-lg font-bold text-brand-600 mb-4 brand-serif border-b pb-2">
                                 <i className="fas fa-chart-bar mr-2"></i> {labels.userProfile}
                             </h3>
                             <div className="space-y-3 text-sm">
                                 <div className="flex justify-between">
                                     <span className="text-slate-500">已回答題數</span>
-                                    <span className="font-semibold">{Object.values(quizScores).reduce((acc, sec) => acc + Object.keys(sec).length, 0)} / {maxQuestions}</span>
+                                    <span className="font-semibold">{Object.values(quizScores).reduce((acc, sec) => acc +
+                                        Object.keys(sec).length, 0)} / {maxQuestions}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-slate-500">總分</span>
@@ -1311,7 +1804,8 @@
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
+                    <div
+                        className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
                         <h3 className="text-lg font-bold text-brand-600 mb-4 brand-serif">
                             <i className="fas fa-list-ul mr-2"></i> {labels.historyTitle}
                         </h3>
@@ -1321,9 +1815,11 @@
                                 const secScores = quizScores[sec.id] || {};
                                 const secTotal = Object.values(secScores).reduce((a, b) => a + b, 0);
                                 return (
-                                    <div key={sec.id} className="py-3 flex justify-between items-center hover:bg-slate-50 dark:hover:bg-slate-900 px-2 transition-colors">
+                                    <div key={sec.id}
+                                        className="py-3 flex justify-between items-center hover:bg-slate-50 dark:hover:bg-slate-900 px-2 transition-colors">
                                         <div className="flex items-center">
-                                            <div className="w-8 h-8 rounded bg-slate-100 dark:bg-slate-700 flex items-center justify-center mr-3 text-brand-600 text-sm">
+                                            <div
+                                                className="w-8 h-8 rounded bg-slate-100 dark:bg-slate-700 flex items-center justify-center mr-3 text-brand-600 text-sm">
                                                 <i className={`fas ${sec.icon}`}></i>
                                             </div>
                                             <span className="text-sm text-slate-700 dark:text-slate-300 font-medium">{sec.title}</span>
@@ -1336,7 +1832,7 @@
                             })}
                         </div>
                     </div>
-                </div>
+                </div >
             );
         };
 
@@ -1355,6 +1851,36 @@
             const [quizScores, setQuizScores] = useState({});
             const [selectedGlossaryKey, setSelectedGlossaryKey] = useState("");
 
+            // 語言狀態 (zh | en)
+            const [lang, setLang] = useState(() => {
+                const savedLang = localStorage.getItem('lang');
+                return savedLang || 'zh';
+            });
+
+            // 語言切換
+            const toggleLang = () => {
+                const newLang = lang === 'zh' ? 'en' : 'zh';
+                setLang(newLang);
+                localStorage.setItem('lang', newLang);
+            };
+
+            // 根據語言取得翻譯資料
+            const t = i18n[lang];
+            const currentGlossary = glossaryDataBilingual[lang];
+            const currentVideoList = teamVideosBilingual[lang];
+            const currentSectionTitles = sectionTitles[lang];
+            const currentFooter = footerBilingual[lang];
+
+            // 根據語言選擇章節資料
+            const currentSections = lang === 'en' ? sectionsEn : APP_DATA.sections;
+            // 為團隊章節加入對應語言的影片列表
+            const sectionsWithVideos = currentSections.map(sec => {
+                if (sec.id === 5) {
+                    return { ...sec, videos: currentVideoList };
+                }
+                return sec;
+            });
+
             const footerRef = useRef(null);
             const mainContentRef = useRef(null);
 
@@ -1372,18 +1898,16 @@
             // Responsive sidebar
             useEffect(() => {
                 const handleResize = () => {
-                    if (window.innerWidth < 1024) setSidebarOpen(false);
-                    else setSidebarOpen(true);
+                    if (window.innerWidth < 1024) setSidebarOpen(false); else setSidebarOpen(true);
                 };
-                window.addEventListener('resize', handleResize);
-                handleResize();
-                return () => window.removeEventListener('resize', handleResize);
+                window.addEventListener('resize', handleResize); handleResize(); return () =>
+                    window.removeEventListener('resize', handleResize);
             }, []);
 
-            const currentSection = APP_DATA.sections[activeSection];
+            const currentSection = sectionsWithVideos[activeSection];
 
             const displayGlossary = useMemo(() => {
-                return glossaryData.map(item => ({
+                return currentGlossary.map(item => ({
                     key: item.k,
                     t: item.k,
                     d: item.tc
@@ -1428,9 +1952,12 @@
                     <div className="gradient-blob blob-4 w-64 h-64 bg-google-yellow bottom-1/3 right-1/4 fixed"></div>
 
                     {/* Fixed Header - Premium Glass Style */}
-                    <header className="fixed top-0 left-0 w-full h-16 glass shadow-google z-50 flex items-center px-4 md:px-6 justify-between transition-all">
+                    <header
+                        className="fixed top-0 left-0 w-full h-16 glass shadow-google z-50 flex items-center px-4 md:px-6 justify-between transition-all">
                         <div className="flex items-center gap-4">
-                            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="w-10 h-10 rounded-full hover:bg-gray-100/50 dark:hover:bg-gray-700/50 flex items-center justify-center text-gray-600 dark:text-gray-300 focus:outline-none transition-all btn-premium">
+                            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="w-10 h-10 rounded-full
+                            hover:bg-gray-100/50 dark:hover:bg-gray-700/50 flex items-center justify-center
+                            text-gray-600 dark:text-gray-300 focus:outline-none transition-all btn-premium">
                                 <i className="fas fa-bars text-xl"></i>
                             </button>
                             <div className="flex items-center">
@@ -1441,15 +1968,24 @@
                                     </span>
                                 </div>
                                 <div className="hidden sm:block ml-2">
-                                    <span className="text-gray-800 dark:text-white font-semibold text-base">PM 職涯探索</span>
-                                    <span className="text-gray-500 dark:text-gray-400 text-xs block">{APP_DATA.meta.slogan}</span>
+                                    <span className="text-gray-800 dark:text-white font-semibold text-base">{lang === 'zh' ? 'PM 職涯探索' : 'PM Career Exploration'}</span>
+                                    <span
+                                        className="text-gray-500 dark:text-gray-400 text-xs block">{t.meta.slogan}</span>
                                 </div>
                             </div>
                         </div>
 
                         <div className="flex items-center gap-2">
-                            <button onClick={toggleDarkMode} className="w-10 h-10 rounded-full hover:bg-gray-100/50 dark:hover:bg-gray-700/50 flex items-center justify-center text-gray-600 dark:text-google-yellow transition-all btn-premium">
-                                {darkMode ? <i className="fa-solid fa-sun text-lg"></i> : <i className="fa-solid fa-moon text-lg"></i>}
+                            {/* 語言切換按鈕 */}
+                            <button onClick={toggleLang}
+                                className="px-3 py-1.5 rounded-full bg-gray-100/50 dark:bg-gray-700/50 hover:bg-gray-200/50 dark:hover:bg-gray-600/50 flex items-center gap-2 text-gray-600 dark:text-gray-300 transition-all btn-premium text-sm font-medium">
+                                <i className="fas fa-globe"></i>
+                                <span>{t.labels.switchLang}</span>
+                            </button>
+                            <button onClick={toggleDarkMode}
+                                className="w-10 h-10 rounded-full hover:bg-gray-100/50 dark:hover:bg-gray-700/50 flex items-center justify-center text-gray-600 dark:text-google-yellow transition-all btn-premium">
+                                {darkMode ? <i className="fa-solid fa-sun text-lg"></i> : <i
+                                    className="fa-solid fa-moon text-lg"></i>}
                             </button>
                         </div>
                     </header>
@@ -1457,24 +1993,31 @@
                     <div className="flex pt-16 min-h-screen relative z-10">
 
                         {/* Sidebar - Premium Glass Style */}
-                        <aside className={`fixed top-16 left-0 h-[calc(100vh-4rem)] w-72 glass transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out z-40 flex flex-col overflow-hidden`}>
+                        <aside className={`fixed top-16 left-0 h-[calc(100vh-4rem)] w-72 glass transform ${sidebarOpen
+                            ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out z-40
+                        flex flex-col overflow-hidden`}>
                             <div className="flex-1 overflow-y-auto no-scrollbar py-4">
-                                <p className="px-6 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">{APP_DATA.labels.nav}</p>
+                                <p
+                                    className="px-6 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">
+                                    {t.labels.nav}</p>
                                 <ul className="space-y-1 px-2">
-                                    {APP_DATA.sections.map((sec, idx) => {
-                                        const googleColors = ['text-google-blue', 'text-google-red', 'text-google-yellow', 'text-google-green'];
+                                    {sectionsWithVideos.map((sec, idx) => {
+                                        const googleColors = ['text-google-blue', 'text-google-red', 'text-google-yellow',
+                                            'text-google-green'];
                                         const colorClass = googleColors[idx % 4];
                                         return (
                                             <li key={sec.id}>
-                                                <button
-                                                    onClick={() => {
-                                                        setActiveSection(idx);
-                                                        if (window.innerWidth < 1024) setSidebarOpen(false);
-                                                        window.scrollTo(0, 0);
-                                                    }}
-                                                    className={`w-full text-left px-4 py-3 text-sm font-medium rounded-full transition-all flex items-center ${activeSection === idx ? 'bg-brand-50 dark:bg-gray-700 text-brand-600 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
-                                                >
-                                                    <i className={`fas ${sec.icon} w-6 text-center text-sm mr-3 ${activeSection === idx ? colorClass : 'text-gray-400'}`}></i>
+                                                <button onClick={() => {
+                                                    setActiveSection(idx);
+                                                    if (window.innerWidth < 1024) setSidebarOpen(false); window.scrollTo(0, 0);
+                                                }}
+                                                    className={`w-full text-left px-4 py-3 text-sm font-medium rounded-full
+                                            transition-all flex items-center ${activeSection === idx
+                                                            ? 'bg-brand-50 dark:bg-gray-700 text-brand-600 dark:text-brand-300'
+                                                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                                                        }`}>
+                                                    <i className={`fas ${sec.icon} w-6 text-center text-sm mr-3
+                                                ${activeSection === idx ? colorClass : 'text-gray-400'}`}></i>
                                                     <span className="truncate">{sec.title}</span>
                                                 </button>
                                             </li>
@@ -1485,66 +2028,75 @@
                         </aside>
 
                         {/* Main Content */}
-                        <main ref={mainContentRef} className={`flex-1 w-full transition-all duration-300 ${sidebarOpen ? 'lg:ml-72' : 'ml-0'}`}>
+                        <main ref={mainContentRef} className={`flex-1 w-full transition-all duration-300 ${sidebarOpen
+                            ? 'lg:ml-72' : 'ml-0'}`}>
                             <div className="max-w-5xl mx-auto p-6 md:p-12 pb-32">
 
                                 {/* Section Header - Google Style */}
                                 <header className="mb-10">
-                                    <h2 className="text-2xl md:text-3xl font-medium text-gray-900 dark:text-white leading-tight flex items-center">
+                                    <h2
+                                        className="text-2xl md:text-3xl font-medium text-gray-900 dark:text-white leading-tight flex items-center">
                                         {(() => {
-                                            const googleColors = ['bg-google-blue', 'bg-google-red', 'bg-google-yellow', 'bg-google-green'];
+                                            const googleColors = ['bg-google-blue', 'bg-google-red', 'bg-google-yellow',
+                                                'bg-google-green'];
                                             const colorClass = googleColors[activeSection % 4];
                                             return (
-                                                <div className={`w-10 h-10 rounded-full ${colorClass} text-white flex items-center justify-center text-lg mr-4 shadow-google shrink-0`}>
+                                                <div className={`w-10 h-10 rounded-full ${colorClass} text-white flex items-center
+                                        justify-center text-lg mr-4 shadow-google shrink-0`}>
                                                     <i className={`fas ${currentSection.icon}`}></i>
                                                 </div>
                                             );
                                         })()}
                                         {currentSection.title}
                                     </h2>
-                                    <div className="h-1 w-24 bg-gradient-to-r from-google-blue via-google-red via-google-yellow to-google-green mt-4 rounded-full"></div>
+                                    <div
+                                        className="h-1 w-24 bg-gradient-to-r from-google-blue via-google-red via-google-yellow to-google-green mt-4 rounded-full">
+                                    </div>
                                 </header>
 
                                 {/* Section Content - 根據章節選擇不同 layout */}
                                 {currentSection.isHistory ? (
-                                    <UsageHistory quizScores={quizScores} sections={APP_DATA.sections} labels={APP_DATA.labels} />
+                                    <UsageHistory quizScores={quizScores} sections={APP_DATA.sections}
+                                        labels={t.labels} />
                                 ) : activeSection === 0 ? (
                                     /* Layout 1: Hero + 統計卡 + 斜角區塊 (概覽頁) */
                                     <div className="space-y-8 animate-fade-in">
                                         {/* Hero 區塊 */}
                                         <div className="hero-section">
                                             <div className="hero-content">
-                                                <h3 className="text-3xl md:text-4xl font-bold mb-4">探索 Google PM 的世界</h3>
-                                                <p className="text-lg opacity-90 max-w-2xl mx-auto">{currentSection.highlights?.[0] || ''}</p>
+                                                <h3 className="text-3xl md:text-4xl font-bold mb-4">{t.ui.hero0Title}</h3>
+                                                <p className="text-lg opacity-90 max-w-2xl mx-auto">
+                                                    {currentSection.highlights?.[0] || ''}</p>
                                             </div>
                                         </div>
 
                                         {/* 統計卡片 */}
                                         <div className="stats-grid">
-                                            {[
-                                                { num: '150K+', label: '平均年薪 (USD)', color: 'text-google-blue' },
-                                                { num: '80%', label: '跨部門協作', color: 'text-google-red' },
-                                                { num: '5+', label: '核心技能', color: 'text-google-yellow' },
-                                                { num: '∞', label: '成長機會', color: 'text-google-green' }
-                                            ].map((s, i) => (
-                                                <div key={i} className="stat-card premium-card stagger-item animate-scale-in" style={{ animationDelay: `${i * 0.1}s` }}>
-                                                    <div className={`stat-number ${s.color}`}>{s.num}</div>
-                                                    <div className="stat-label">{s.label}</div>
-                                                </div>
-                                            ))}
+                                            {t.ui.stats.map((s, i) => {
+                                                const colors = ['text-google-blue', 'text-google-red', 'text-google-yellow', 'text-google-green'];
+                                                return (
+                                                    <div key={i} className="stat-card premium-card stagger-item animate-scale-in"
+                                                        style={{ animationDelay: `${i * 0.1}s` }}>
+                                                        <div className={`stat-number ${colors[i]}`}>{s.num}</div>
+                                                        <div className="stat-label">{s.label}</div>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
 
                                         {/* 斜角區塊：Highlights */}
                                         <div className="skew-section">
-                                            <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center">
+                                            <h3
+                                                className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center">
                                                 <i className="fas fa-star text-google-yellow mr-2"></i>
-                                                {APP_DATA.labels.highlights}
+                                                {t.labels.highlights}
                                             </h3>
                                             <div className="masonry-grid">
                                                 {currentSection.highlights?.map((h, i) => {
                                                     const cardColors = ['card-blue', 'card-red', 'card-yellow', 'card-green'];
                                                     return (
-                                                        <div key={i} className={`feature-card ${cardColors[i % 4]} premium-card stagger-item animate-fade-in`} style={{ animationDelay: `${i * 0.1}s` }}>
+                                                        <div key={i} className={`feature-card ${cardColors[i % 4]} premium-card
+                                            stagger-item animate-fade-in`} style={{ animationDelay: `${i * 0.1}s` }}>
                                                             <p className="text-sm leading-relaxed">{h}</p>
                                                         </div>
                                                     );
@@ -1557,7 +2109,9 @@
 
                                         {/* Quiz */}
                                         {currentSection.quiz && currentSection.quiz.length > 0 && (
-                                            <SelfCheck questions={currentSection.quiz} answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) => handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />
+                                            <SelfCheck questions={currentSection.quiz} answers={quizScores[currentSection.id] || {}}
+                                                onAnswer={(qIdx, score) => handleQuizAnswer(currentSection.id, qIdx, score)}
+                                                labels={APP_DATA.labels} />
                                         )}
                                     </div>
                                 ) : activeSection === 1 ? (
@@ -1571,11 +2125,16 @@
                                         {/* 交錯排版的 Highlights */}
                                         <div className="space-y-0">
                                             {currentSection.highlights?.slice(1).map((h, i) => (
-                                                <div key={i} className={`zigzag-item stagger-item animate-fade-in`} style={{ animationDelay: `${i * 0.15}s` }}>
+                                                <div key={i} className={`zigzag-item stagger-item animate-fade-in`} style={{
+                                                    animationDelay: `${i * 0.15}s`
+                                                }}>
                                                     <div className="zigzag-content">
                                                         <div className="glass premium-card p-6 rounded-2xl">
                                                             <div className="flex items-start gap-3">
-                                                                <div className={`w-10 h-10 rounded-full ${['bg-google-blue', 'bg-google-red', 'bg-google-yellow', 'bg-google-green'][i % 4]} text-white flex items-center justify-center text-sm font-bold shrink-0`}>
+                                                                <div className={`w-10 h-10 rounded-full
+                                                        ${['bg-google-blue', 'bg-google-red', 'bg-google-yellow'
+                                                                        , 'bg-google-green'][i % 4]} text-white flex items-center
+                                                        justify-center text-sm font-bold shrink-0`}>
                                                                     {i + 1}
                                                                 </div>
                                                                 <p className="text-gray-700 dark:text-gray-300">{h}</p>
@@ -1583,8 +2142,13 @@
                                                         </div>
                                                     </div>
                                                     <div className="zigzag-visual">
-                                                        <div className={`h-24 rounded-2xl ${['bg-google-blue/20', 'bg-google-red/20', 'bg-google-yellow/20', 'bg-google-green/20'][i % 4]} flex items-center justify-center`}>
-                                                            <i className={`fas ${['fa-chart-line', 'fa-dollar-sign', 'fa-trophy', 'fa-rocket'][i % 4]} text-4xl ${['text-google-blue', 'text-google-red', 'text-google-yellow', 'text-google-green'][i % 4]}`}></i>
+                                                        <div className={`h-24 rounded-2xl ${['bg-google-blue/20', 'bg-google-red/20'
+                                                            , 'bg-google-yellow/20', 'bg-google-green/20'][i % 4]} flex
+                                                items-center justify-center`}>
+                                                            <i className={`fas ${['fa-chart-line', 'fa-dollar-sign', 'fa-trophy'
+                                                                , 'fa-rocket'][i % 4]} text-4xl
+                                                    ${['text-google-blue', 'text-google-red', 'text-google-yellow'
+                                                                    , 'text-google-green'][i % 4]}`}></i>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1594,13 +2158,16 @@
                                         {/* Action Plan 時間軸 */}
                                         {currentSection.actionPlan && (
                                             <div className="skew-section skew-alt">
-                                                <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-6 flex items-center">
+                                                <h3
+                                                    className="text-lg font-bold text-gray-800 dark:text-white mb-6 flex items-center">
                                                     <i className="fas fa-tasks text-google-green mr-2"></i>
                                                     {APP_DATA.labels.actionPlan}
                                                 </h3>
                                                 <div className="timeline">
                                                     {currentSection.actionPlan.map((a, i) => (
-                                                        <div key={i} className="timeline-item stagger-item animate-slide-left" style={{ animationDelay: `${i * 0.1}s` }}>
+                                                        <div key={i} className="timeline-item stagger-item animate-slide-left" style={{
+                                                            animationDelay: `${i * 0.1}s`
+                                                        }}>
                                                             <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{a}</p>
                                                         </div>
                                                     ))}
@@ -1609,7 +2176,9 @@
                                         )}
 
                                         <ThemeExplorer themes={currentSection.themes} label={APP_DATA.labels.themes} />
-                                        {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz} answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) => handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
+                                        {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz}
+                                            answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) =>
+                                                handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
                                     </div>
                                 ) : activeSection === 4 ? (
                                     /* Layout 6: 學習路線連結頁 - 藍色 Hero + 時間軸 */
@@ -1624,15 +2193,19 @@
 
                                         {/* 學習路線時間軸 */}
                                         <div className="skew-section">
-                                            <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-6 flex items-center">
+                                            <h3
+                                                className="text-lg font-bold text-gray-800 dark:text-white mb-6 flex items-center">
                                                 <i className="fas fa-graduation-cap text-google-blue mr-2"></i>
                                                 {APP_DATA.labels.highlights}
                                             </h3>
                                             <div className="timeline">
                                                 {currentSection.highlights?.map((h, i) => (
-                                                    <div key={i} className="timeline-item stagger-item animate-slide-left" style={{ animationDelay: `${i * 0.15}s` }}>
+                                                    <div key={i} className="timeline-item stagger-item animate-slide-left" style={{
+                                                        animationDelay: `${i * 0.15}s`
+                                                    }}>
                                                         <div className="glass premium-card p-4 rounded-xl">
-                                                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{h}</p>
+                                                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{h}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 ))}
@@ -1646,7 +2219,8 @@
                                                     const cardColors = ['card-blue', 'card-red', 'card-yellow', 'card-green'];
                                                     const icons = ['fa-book', 'fa-puzzle-piece', 'fa-users-cog'];
                                                     return (
-                                                        <div key={i} className={`feature-card ${cardColors[i % 4]} premium-card stagger-item animate-scale-in`} style={{ animationDelay: `${i * 0.1}s` }}>
+                                                        <div key={i} className={`feature-card ${cardColors[i % 4]} premium-card stagger-item
+                                        animate-scale-in`} style={{ animationDelay: `${i * 0.1}s` }}>
                                                             <div className="flex items-start gap-3">
                                                                 <i className={`fas ${icons[i % 3]} text-xl opacity-80`}></i>
                                                                 <p className="text-sm leading-relaxed">{a}</p>
@@ -1661,11 +2235,14 @@
 
                                         {currentSection.flashcards?.length > 0 && (
                                             <div className="masonry-grid">
-                                                {currentSection.flashcards.map((f, i) => <Flashcard key={i} front={f.front} back={f.back} />)}
+                                                {currentSection.flashcards.map((f, i) =>
+                                                    <Flashcard key={i} front={f.front} back={f.back} />)}
                                             </div>
                                         )}
 
-                                        {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz} answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) => handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
+                                        {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz}
+                                            answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) =>
+                                                handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
                                     </div>
                                 ) : activeSection === 5 ? (
                                     /* Layout 3: 團隊介紹頁 - 瀑布流 */
@@ -1682,10 +2259,16 @@
                                         {currentSection.team && (
                                             <div className="masonry-grid">
                                                 {currentSection.team.members.map((m, i) => (
-                                                    <div key={i} className={`glass premium-card p-6 rounded-2xl text-center stagger-item animate-scale-in ${i === 0 ? 'masonry-item-tall' : ''}`} style={{ animationDelay: `${i * 0.1}s` }}>
-                                                        <img src={m.img} alt={m.name} className="w-20 h-20 rounded-full mx-auto mb-4 object-cover shadow-google" />
+                                                    <div key={i} className={`glass premium-card p-6 rounded-2xl text-center stagger-item
+                                        animate-scale-in ${i === 0 ? 'masonry-item-tall' : ''}`} style={{
+                                                            animationDelay:
+                                                                `${i * 0.1}s`
+                                                        }}>
+                                                        <img src={m.img} alt={m.name}
+                                                            className="w-20 h-20 rounded-full mx-auto mb-4 object-cover shadow-google" />
                                                         <h4 className="font-bold text-gray-800 dark:text-white">{m.name}</h4>
-                                                        <p className={`text-sm ${['text-google-blue', 'text-google-red', 'text-google-yellow', 'text-google-green'][i % 4]}`}>{m.role}</p>
+                                                        <p className={`text-sm ${['text-google-blue', 'text-google-red'
+                                                            , 'text-google-yellow', 'text-google-green'][i % 4]}`}>{m.role}</p>
                                                     </div>
                                                 ))}
                                             </div>
@@ -1701,17 +2284,21 @@
                                         {/* 影片區 */}
                                         {currentSection.videos && (
                                             <div className="skew-section">
-                                                <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center">
+                                                <h3
+                                                    className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center">
                                                     <i className="fas fa-play-circle text-google-red mr-2"></i>
                                                     團隊自我介紹影片
                                                 </h3>
                                                 <div className="masonry-grid">
-                                                    {currentSection.videos.map((v, i) => <VideoCard key={i} video={v} label={APP_DATA.labels.watchVideo} />)}
+                                                    {currentSection.videos.map((v, i) =>
+                                                        <VideoCard key={i} video={v} label={APP_DATA.labels.watchVideo} />)}
                                                 </div>
                                             </div>
                                         )}
 
-                                        {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz} answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) => handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
+                                        {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz}
+                                            answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) =>
+                                                handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
                                     </div>
                                 ) : activeSection === 2 ? (
                                     /* Layout 4: 核心能力頁 - 全寬特色卡片 */
@@ -1730,10 +2317,12 @@
                                                 const cardColors = ['card-blue', 'card-red', 'card-yellow', 'card-green'];
                                                 const icons = ['fa-brain', 'fa-users', 'fa-chart-bar', 'fa-lightbulb', 'fa-code'];
                                                 return (
-                                                    <div key={i} className={`feature-card ${cardColors[i % 4]} premium-card stagger-item animate-slide-left relative`} style={{ animationDelay: `${i * 0.1}s` }}>
+                                                    <div key={i} className={`feature-card ${cardColors[i % 4]} premium-card stagger-item
+                                        animate-slide-left relative`} style={{ animationDelay: `${i * 0.1}s` }}>
                                                         {i === 0 && <span className="floating-badge">重要</span>}
                                                         <div className="flex items-center gap-4">
-                                                            <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                                                            <div
+                                                                className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center shrink-0">
                                                                 <i className={`fas ${icons[i % 5]} text-xl`}></i>
                                                             </div>
                                                             <p className="text-base leading-relaxed">{h}</p>
@@ -1746,13 +2335,16 @@
                                         {/* Action Plan 時間軸 */}
                                         {currentSection.actionPlan && (
                                             <div className="skew-section">
-                                                <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-6 flex items-center">
+                                                <h3
+                                                    className="text-lg font-bold text-gray-800 dark:text-white mb-6 flex items-center">
                                                     <i className="fas fa-route text-google-blue mr-2"></i>
                                                     {APP_DATA.labels.actionPlan}
                                                 </h3>
                                                 <div className="timeline">
                                                     {currentSection.actionPlan.map((a, i) => (
-                                                        <div key={i} className="timeline-item stagger-item animate-slide-left" style={{ animationDelay: `${i * 0.1}s` }}>
+                                                        <div key={i} className="timeline-item stagger-item animate-slide-left" style={{
+                                                            animationDelay: `${i * 0.1}s`
+                                                        }}>
                                                             <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{a}</p>
                                                         </div>
                                                     ))}
@@ -1765,11 +2357,14 @@
                                         {/* Flashcards */}
                                         {currentSection.flashcards?.length > 0 && (
                                             <div className="masonry-grid">
-                                                {currentSection.flashcards.map((f, i) => <Flashcard key={i} front={f.front} back={f.back} />)}
+                                                {currentSection.flashcards.map((f, i) =>
+                                                    <Flashcard key={i} front={f.front} back={f.back} />)}
                                             </div>
                                         )}
 
-                                        {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz} answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) => handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
+                                        {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz}
+                                            answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) =>
+                                                handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
                                     </div>
                                 ) : activeSection === 3 ? (
                                     /* Layout 5: 技能對應頁 - 瀑布流卡片 */
@@ -1785,8 +2380,13 @@
                                         {/* 瀑布流 Highlights */}
                                         <div className="masonry-grid">
                                             {currentSection.highlights?.map((h, i) => (
-                                                <div key={i} className={`glass premium-card p-5 rounded-2xl stagger-item animate-scale-in ${i % 3 === 0 ? 'masonry-item-tall' : ''}`} style={{ animationDelay: `${i * 0.08}s` }}>
-                                                    <div className={`w-8 h-8 rounded-full ${['bg-google-blue', 'bg-google-red', 'bg-google-yellow', 'bg-google-green'][i % 4]} text-white flex items-center justify-center text-sm mb-3`}>
+                                                <div key={i} className={`glass premium-card p-5 rounded-2xl stagger-item
+                                        animate-scale-in ${i % 3 === 0 ? 'masonry-item-tall' : ''}`} style={{
+                                                        animationDelay: `${i * 0.08}s`
+                                                    }}>
+                                                    <div className={`w-8 h-8 rounded-full ${['bg-google-blue', 'bg-google-red'
+                                                        , 'bg-google-yellow', 'bg-google-green'][i % 4]} text-white flex
+                                            items-center justify-center text-sm mb-3`}>
                                                         <i className="fas fa-check"></i>
                                                     </div>
                                                     <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{h}</p>
@@ -1797,15 +2397,19 @@
                                         {/* 交錯排版 Action Plan */}
                                         {currentSection.actionPlan && (
                                             <div className="skew-section skew-alt">
-                                                <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center">
+                                                <h3
+                                                    className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center">
                                                     <i className="fas fa-clipboard-list text-google-red mr-2"></i>
                                                     {APP_DATA.labels.actionPlan}
                                                 </h3>
                                                 <div className="space-y-3">
                                                     {currentSection.actionPlan.map((a, i) => (
-                                                        <div key={i} className="zigzag-item stagger-item animate-fade-in" style={{ animationDelay: `${i * 0.1}s` }}>
+                                                        <div key={i} className="zigzag-item stagger-item animate-fade-in" style={{
+                                                            animationDelay: `${i * 0.1}s`
+                                                        }}>
                                                             <div className="zigzag-content">
-                                                                <div className={`feature-card ${['card-blue', 'card-red', 'card-yellow', 'card-green'][i % 4]} premium-card`}>
+                                                                <div className={`feature-card ${['card-blue', 'card-red', 'card-yellow'
+                                                                    , 'card-green'][i % 4]} premium-card`}>
                                                                     <p className="text-sm">{a}</p>
                                                                 </div>
                                                             </div>
@@ -1819,11 +2423,14 @@
 
                                         {currentSection.flashcards?.length > 0 && (
                                             <div className="masonry-grid">
-                                                {currentSection.flashcards.map((f, i) => <Flashcard key={i} front={f.front} back={f.back} />)}
+                                                {currentSection.flashcards.map((f, i) =>
+                                                    <Flashcard key={i} front={f.front} back={f.back} />)}
                                             </div>
                                         )}
 
-                                        {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz} answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) => handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
+                                        {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz}
+                                            answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) =>
+                                                handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
                                     </div>
                                 ) : (
                                     /* 預設 Layout: 雙欄式 */
@@ -1833,17 +2440,22 @@
                                             {/* Highlights */}
                                             {currentSection.highlights && currentSection.highlights.length > 0 && (
                                                 <section className="stagger-item animate-fade-in">
-                                                    <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
+                                                    <h3
+                                                        className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
                                                         <i className="fas fa-star text-google-yellow mr-2"></i>
                                                         {APP_DATA.labels.highlights}
                                                     </h3>
-                                                    <div className="glass premium-card p-5 rounded-2xl border-l-4 border-google-blue space-y-3">
+                                                    <div
+                                                        className="glass premium-card p-5 rounded-2xl border-l-4 border-google-blue space-y-3">
                                                         {currentSection.highlights.map((h, i) => (
-                                                            <div key={i} className="flex items-start stagger-item animate-slide-left" style={{ animationDelay: `${i * 0.1}s` }}>
-                                                                <div className="w-6 h-6 rounded-full bg-google-green/10 flex items-center justify-center mr-3 shrink-0">
+                                                            <div key={i} className="flex items-start stagger-item animate-slide-left"
+                                                                style={{ animationDelay: `${i * 0.1}s` }}>
+                                                                <div
+                                                                    className="w-6 h-6 rounded-full bg-google-green/10 flex items-center justify-center mr-3 shrink-0">
                                                                     <i className="fas fa-check text-google-green text-xs"></i>
                                                                 </div>
-                                                                <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{h}</p>
+                                                                <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                                                                    {h}</p>
                                                             </div>
                                                         ))}
                                                     </div>
@@ -1852,19 +2464,27 @@
 
                                             {/* Action Plan */}
                                             {currentSection.actionPlan && currentSection.actionPlan.length > 0 && (
-                                                <section className="stagger-item animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                                                    <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
+                                                <section className="stagger-item animate-fade-in" style={{
+                                                    animationDelay: '0.2s'
+                                                }}>
+                                                    <h3
+                                                        className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
                                                         <i className="fas fa-rocket text-google-red mr-2"></i>
                                                         {APP_DATA.labels.actionPlan}
                                                     </h3>
-                                                    <div className="glass premium-card p-5 rounded-2xl border-l-4 border-google-green">
+                                                    <div
+                                                        className="glass premium-card p-5 rounded-2xl border-l-4 border-google-green">
                                                         <ul className="space-y-3">
                                                             {currentSection.actionPlan.map((a, i) => {
-                                                                const googleColors = ['bg-google-blue', 'bg-google-red', 'bg-google-yellow', 'bg-google-green'];
+                                                                const googleColors = ['bg-google-blue', 'bg-google-red',
+                                                                    'bg-google-yellow', 'bg-google-green'];
                                                                 const colorClass = googleColors[i % 4];
                                                                 return (
-                                                                    <li key={i} className="flex items-center text-sm font-medium text-gray-700 dark:text-gray-200 stagger-item animate-slide-left" style={{ animationDelay: `${i * 0.1}s` }}>
-                                                                        <span className={`w-7 h-7 rounded-full ${colorClass} text-white flex items-center justify-center text-xs mr-3 shadow-sm font-bold`}>
+                                                                    <li key={i}
+                                                                        className="flex items-center text-sm font-medium text-gray-700 dark:text-gray-200 stagger-item animate-slide-left"
+                                                                        style={{ animationDelay: `${i * 0.1}s` }}>
+                                                                        <span className={`w-7 h-7 rounded-full ${colorClass} text-white flex
+                                                        items-center justify-center text-xs mr-3 shadow-sm font-bold`}>
                                                                             {i + 1}
                                                                         </span>
                                                                         {a}
@@ -1878,20 +2498,24 @@
 
                                             {/* Keywords & Theme Explorer */}
                                             {currentSection.keywords && currentSection.keywords.length > 0 && (
-                                                <section className="stagger-item animate-fade-in" style={{ animationDelay: '0.3s' }}>
-                                                    <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
+                                                <section className="stagger-item animate-fade-in" style={{
+                                                    animationDelay: '0.3s'
+                                                }}>
+                                                    <h3
+                                                        className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
                                                         <i className="fas fa-tags text-google-blue mr-2"></i>
                                                         關鍵字
                                                     </h3>
                                                     <div className="flex flex-wrap gap-2 mb-4">
                                                         {currentSection.keywords.map((k, i) => {
-                                                            const googleColors = ['bg-google-blue', 'bg-google-red', 'bg-google-yellow', 'bg-google-green'];
+                                                            const googleColors = ['bg-google-blue', 'bg-google-red', 'bg-google-yellow',
+                                                                'bg-google-green'];
                                                             const colorClass = googleColors[i % 4];
                                                             return (
-                                                                <button
-                                                                    key={i}
-                                                                    onClick={() => handleKeywordClick(k)}
-                                                                    className={`px-4 py-2 ${colorClass} text-white rounded-full text-xs font-semibold hover:scale-105 transition-all shadow-sm cursor-pointer btn-premium`}
+                                                                <button key={i} onClick={() => handleKeywordClick(k)}
+                                                                    className={`px-4 py-2 ${colorClass} text-white rounded-full text-xs
+                                                font-semibold hover:scale-105 transition-all shadow-sm cursor-pointer
+                                                btn-premium`}
                                                                 >
                                                                     #{k}
                                                                 </button>
@@ -1903,10 +2527,12 @@
                                             )}
 
                                             {/* Gallery */}
-                                            {currentSection.gallery && <GallerySection gallery={currentSection.gallery} />}
+                                            {currentSection.gallery &&
+                                                <GallerySection gallery={currentSection.gallery} />}
 
                                             {/* Team */}
-                                            {currentSection.team && <TeamSection team={currentSection.team} />}
+                                            {currentSection.team &&
+                                                <TeamSection team={currentSection.team} />}
                                         </div>
 
                                         {/* Right Column */}
@@ -1914,40 +2540,48 @@
                                             {/* Videos */}
                                             {currentSection.videos && currentSection.videos.length > 0 && (
                                                 <section className="stagger-item animate-slide-right">
-                                                    <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
+                                                    <h3
+                                                        className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
                                                         <i className="fas fa-play-circle text-google-red mr-2"></i>
                                                         {APP_DATA.labels.videos}
                                                     </h3>
                                                     <div className="grid gap-4">
-                                                        {currentSection.videos.map((v, i) => <VideoCard key={i} video={v} label={APP_DATA.labels.watchVideo} />)}
+                                                        {currentSection.videos.map((v, i) =>
+                                                            <VideoCard key={i} video={v} label={APP_DATA.labels.watchVideo} />)}
                                                     </div>
                                                 </section>
                                             )}
 
                                             {/* Flashcards */}
                                             {currentSection.flashcards && currentSection.flashcards.length > 0 && (
-                                                <section className="stagger-item animate-slide-right" style={{ animationDelay: '0.1s' }}>
-                                                    <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
+                                                <section className="stagger-item animate-slide-right" style={{
+                                                    animationDelay: '0.1s'
+                                                }}>
+                                                    <h3
+                                                        className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
                                                         <i className="fas fa-clone text-google-yellow mr-2"></i>
                                                         {APP_DATA.labels.flashcards}
                                                     </h3>
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                                        {currentSection.flashcards.map((f, i) => <Flashcard key={i} front={f.front} back={f.back} />)}
+                                                        {currentSection.flashcards.map((f, i) =>
+                                                            <Flashcard key={i} front={f.front} back={f.back} />)}
                                                     </div>
                                                 </section>
                                             )}
 
                                             {/* Self-Check Quiz */}
                                             {currentSection.quiz && currentSection.quiz.length > 0 && (
-                                                <section className="stagger-item animate-slide-right" style={{ animationDelay: '0.2s' }}>
-                                                    <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
+                                                <section className="stagger-item animate-slide-right" style={{
+                                                    animationDelay: '0.2s'
+                                                }}>
+                                                    <h3
+                                                        className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
                                                         <i className="fas fa-clipboard-check text-google-green mr-2"></i>
                                                         {APP_DATA.labels.quiz}
                                                     </h3>
-                                                    <SelfCheck
-                                                        questions={currentSection.quiz}
-                                                        answers={quizScores[currentSection.id] || {}}
-                                                        onAnswer={(qIdx, score) => handleQuizAnswer(currentSection.id, qIdx, score)}
+                                                    <SelfCheck questions={currentSection.quiz}
+                                                        answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) =>
+                                                            handleQuizAnswer(currentSection.id, qIdx, score)}
                                                         labels={APP_DATA.labels}
                                                     />
                                                 </section>
@@ -1957,11 +2591,13 @@
                                 )}
 
                                 {/* Footer with Glossary */}
-                                <footer ref={footerRef} className="mt-16 border-t border-slate-100 dark:border-slate-800 pt-8">
+                                <footer ref={footerRef}
+                                    className="mt-16 border-t border-slate-100 dark:border-slate-800 pt-8">
                                     <div className="flex flex-col md:flex-row justify-between items-start gap-8">
                                         {/* Glossary */}
                                         <div className="w-full md:w-2/3">
-                                            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{APP_DATA.labels.glossary}</label>
+                                            <label
+                                                className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{APP_DATA.labels.glossary}</label>
                                             <div className="relative">
                                                 <select
                                                     className="w-full p-4 pl-12 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-brand-500 outline-none appearance-none shadow-sm cursor-pointer brand-serif"
@@ -1969,12 +2605,15 @@
                                                     value={selectedGlossaryKey}
                                                 >
                                                     <option value="">{APP_DATA.meta.glossaryPrompt}</option>
-                                                    {displayGlossary.map((g, i) => <option key={i} value={g.key}>{g.t}</option>)}
+                                                    {displayGlossary.map((g, i) => <option key={i} value={g.key}>{g.t}
+                                                    </option>)}
                                                 </select>
-                                                <i className="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                                                <i
+                                                    className="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
                                             </div>
                                             {currentGlossaryDefinition && (
-                                                <div className="mt-4 p-5 bg-brand-50 dark:bg-slate-800 rounded-lg border-l-4 border-brand-500 text-slate-700 dark:text-slate-300 text-sm brand-serif leading-relaxed animate-fade-in shadow-sm">
+                                                <div
+                                                    className="mt-4 p-5 bg-brand-50 dark:bg-slate-800 rounded-lg border-l-4 border-brand-500 text-slate-700 dark:text-slate-300 text-sm brand-serif leading-relaxed animate-fade-in shadow-sm">
                                                     {currentGlossaryDefinition}
                                                 </div>
                                             )}
@@ -1982,15 +2621,19 @@
 
                                         {/* Navigation Buttons */}
                                         <div className="flex space-x-4 pt-6">
-                                            <button
-                                                onClick={() => { setActiveSection(Math.max(0, activeSection - 1)); window.scrollTo(0, 0); }}
+                                            <button onClick={() => {
+                                                setActiveSection(Math.max(0, activeSection - 1));
+                                                window.scrollTo(0, 0);
+                                            }}
                                                 disabled={activeSection === 0}
                                                 className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${activeSection === 0 ? 'bg-slate-100 text-slate-300' : 'bg-white text-brand-600 border border-slate-200 hover:border-brand-500 hover:bg-brand-600 hover:text-white shadow-md'}`}
                                             >
                                                 <i className="fas fa-arrow-left"></i>
                                             </button>
-                                            <button
-                                                onClick={() => { setActiveSection(Math.min(APP_DATA.sections.length - 1, activeSection + 1)); window.scrollTo(0, 0); }}
+                                            <button onClick={() => {
+                                                setActiveSection(Math.min(APP_DATA.sections.length - 1,
+                                                    activeSection + 1)); window.scrollTo(0, 0);
+                                            }}
                                                 disabled={activeSection === APP_DATA.sections.length - 1}
                                                 className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${activeSection === APP_DATA.sections.length - 1 ? 'bg-slate-100 text-slate-300' : 'bg-brand-600 text-white hover:bg-brand-700 shadow-md hover:shadow-lg'}`}
                                             >
@@ -2000,15 +2643,16 @@
                                     </div>
 
                                     {/* Copyright */}
-                                    <div className="flex flex-col md:flex-row justify-between items-center mt-10 text-[10px] text-slate-400 border-t border-slate-50 dark:border-slate-800 pt-6">
+                                    <div
+                                        className="flex flex-col md:flex-row justify-between items-center mt-10 text-[10px] text-slate-400 border-t border-slate-50 dark:border-slate-800 pt-6">
                                         <div className="flex items-center gap-2 mb-2 md:mb-0">
                                             <i className="fa-solid fa-university text-lg"></i>
-                                            <span>{APP_DATA.footer.uni}</span>
+                                            <span>{currentFooter.uni}</span>
                                         </div>
                                         <div className="flex flex-col md:flex-row items-center gap-2 md:gap-6">
-                                            <span>© {APP_DATA.footer.year}</span>
+                                            <span>© {currentFooter.year}</span>
                                             <span className="hidden md:inline">•</span>
-                                            <span>Instructor: {APP_DATA.footer.prof}</span>
+                                            <span>Instructor: {currentFooter.prof}</span>
                                         </div>
                                     </div>
                                 </footer>
@@ -2020,7 +2664,8 @@
         };
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        root.render(
+            <App />);
     </script>
 </body>
 
