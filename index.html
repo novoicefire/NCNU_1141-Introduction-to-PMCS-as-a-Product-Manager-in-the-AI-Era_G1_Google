@@ -1180,8 +1180,8 @@
 
         // Footer 翻譯
         const footerBilingual = {
-            zh: { prof: "駱世民教授", uni: "國立暨南國際大學", year: "2025" },
-            en: { prof: "Prof. Shih-Min Lo", uni: "National Chi Nan University", year: "2025" }
+            zh: { prof: "駱世民教授", uni: "國立暨南國際大學", year: "2025", team: "2025PMCS第一組" },
+            en: { prof: "Prof. Shih-Min Lo", uni: "National Chi Nan University", year: "2025", team: "2025PMCS Group 1" }
         };
 
         // 章節資料
@@ -2643,14 +2643,17 @@
                                     </div>
 
                                     {/* Copyright */}
-                                    <div
-                                        className="flex flex-col md:flex-row justify-between items-center mt-10 text-[10px] text-slate-400 border-t border-slate-50 dark:border-slate-800 pt-6">
+                                    <div className="flex flex-col md:flex-row justify-between items-center mt-10 text-[10px] text-slate-400 border-t border-slate-50 dark:border-slate-800 pt-6">
                                         <div className="flex items-center gap-2 mb-2 md:mb-0">
                                             <i className="fa-solid fa-university text-lg"></i>
                                             <span>{currentFooter.uni}</span>
                                         </div>
                                         <div className="flex flex-col md:flex-row items-center gap-2 md:gap-6">
-                                            <span>© {currentFooter.year}</span>
+                                            <div className="flex items-center gap-2">
+                                                <span>© {currentFooter.year}</span>
+                                                <span className="hidden md:inline">•</span>
+                                                <span>{currentFooter.team}</span>
+                                            </div>
                                             <span className="hidden md:inline">•</span>
                                             <span>Instructor: {currentFooter.prof}</span>
                                         </div>
