@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="zh-TW" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Google PM 產品經理職涯探索 - 互動式學習物件">
     <title>Google PM 產品經理 - 互動學習物件</title>
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts - Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
     <!-- React & ReactDOM -->
@@ -24,47 +27,164 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Tailwind Configuration -->
+    <!-- Tailwind Configuration - Google Style -->
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
+                        // Google 品牌四色
+                        google: {
+                            blue: '#4285F4',
+                            red: '#EA4335',
+                            yellow: '#FBBC05',
+                            green: '#34A853',
+                        },
+                        // 主色調 (Google Blue)
                         brand: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                            gold: '#D4AF37',
+                            50: '#E8F0FE',
+                            100: '#D2E3FC',
+                            200: '#AECBFA',
+                            300: '#8AB4F8',
+                            400: '#669DF6',
+                            500: '#4285F4',
+                            600: '#1A73E8',
+                            700: '#1967D2',
+                            800: '#185ABC',
+                            900: '#174EA6',
                         },
                         accent: {
-                            400: '#fbbf24',
-                            500: '#f59e0b',
-                            600: '#d97706',
+                            400: '#FBBC05',
+                            500: '#F9AB00',
+                            600: '#F29900',
                         }
                     },
                     fontFamily: {
                         serif: ['"Playfair Display"', 'serif'],
-                        sans: ['"Montserrat"', '"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        sans: ['"Roboto"', '"Inter"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'google': '0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15)',
+                        'google-hover': '0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15)',
                     }
                 }
             }
         }
     </script>
 
-    <!-- Custom CSS -->
+    <!-- Custom CSS - Premium Design -->
     <style>
         body {
-            font-family: 'Montserrat', 'Inter', sans-serif;
+            font-family: 'Roboto', 'Inter', sans-serif;
             scroll-behavior: smooth;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+        }
+
+        .dark body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
         }
 
         .brand-serif {
             font-family: 'Playfair Display', serif;
+        }
+
+        /* 漸層背景裝飾 - 飄動動畫 */
+        .gradient-blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .blob-1 {
+            animation: blobMove1 12s ease-in-out infinite;
+        }
+
+        .blob-2 {
+            animation: blobMove2 15s ease-in-out infinite;
+        }
+
+        .blob-3 {
+            animation: blobMove3 10s ease-in-out infinite;
+        }
+
+        .blob-4 {
+            animation: blobMove4 14s ease-in-out infinite;
+        }
+
+        @keyframes blobMove1 {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(200px, 100px) scale(1.3);
+            }
+
+            50% {
+                transform: translate(100px, 200px) scale(0.8);
+            }
+
+            75% {
+                transform: translate(-100px, 100px) scale(1.2);
+            }
+        }
+
+        @keyframes blobMove2 {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(-150px, 120px) scale(1.4);
+            }
+
+            66% {
+                transform: translate(120px, -80px) scale(0.7);
+            }
+        }
+
+        @keyframes blobMove3 {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            20% {
+                transform: translate(80px, -120px) scale(0.9);
+            }
+
+            40% {
+                transform: translate(-60px, 150px) scale(1.3);
+            }
+
+            60% {
+                transform: translate(140px, 80px) scale(0.8);
+            }
+
+            80% {
+                transform: translate(-100px, -60px) scale(1.2);
+            }
+        }
+
+        @keyframes blobMove4 {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+            }
+
+            50% {
+                transform: translate(80px, -50px) rotate(180deg) scale(1.2);
+            }
         }
 
         /* 3D Flip Card Styles */
@@ -101,11 +221,11 @@
             transform-origin: bottom center;
         }
 
-        /* Fade-in Animation */
+        /* Premium Animations */
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(20px);
             }
 
             to {
@@ -114,13 +234,462 @@
             }
         }
 
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
         .animate-fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .animate-slide-left {
+            animation: slideInLeft 0.5s ease-out forwards;
+        }
+
+        .animate-slide-right {
+            animation: slideInRight 0.5s ease-out forwards;
+        }
+
+        .animate-scale-in {
+            animation: scaleIn 0.4s ease-out forwards;
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Premium Card Hover Effect */
+        .premium-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .premium-card:hover::before {
+            left: 100%;
+        }
+
+        .premium-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px -12px rgba(66, 133, 244, 0.35);
+        }
+
+        /* Glassmorphism Effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dark .glass {
+            background: rgba(45, 45, 45, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Button Ripple Effect */
+        .btn-premium {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .btn-premium:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px -8px rgba(66, 133, 244, 0.5);
+        }
+
+        .btn-premium:active {
+            transform: scale(0.98);
+        }
+
+        /* Stagger Animation for Lists */
+        .stagger-item:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .stagger-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .stagger-item:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .stagger-item:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .stagger-item:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #4285F4, #EA4335, #FBBC05, #34A853);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Progress Bar Animation */
+        .progress-bar {
+            background: linear-gradient(90deg, #4285F4, #EA4335, #FBBC05, #34A853);
+            background-size: 200% 200%;
+            animation: shimmer 2s linear infinite;
+        }
+
+        /* ===== 藝術感排版樣式 ===== */
+
+        /* Hero 區塊 */
+        .hero-section {
+            position: relative;
+            min-height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(66, 133, 244, 0.9), rgba(52, 168, 83, 0.8));
+            z-index: 1;
+        }
+
+        .hero-section.hero-red::before {
+            background: linear-gradient(135deg, rgba(234, 67, 53, 0.9), rgba(251, 188, 5, 0.8));
+        }
+
+        .hero-section.hero-yellow::before {
+            background: linear-gradient(135deg, rgba(251, 188, 5, 0.9), rgba(52, 168, 83, 0.8));
+        }
+
+        .hero-section.hero-green::before {
+            background: linear-gradient(135deg, rgba(52, 168, 83, 0.9), rgba(66, 133, 244, 0.8));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+        }
+
+        /* 斜角背景 */
+        .skew-section {
+            position: relative;
+            padding: 3rem 0;
+        }
+
+        .skew-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -5%;
+            right: -5%;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(66, 133, 244, 0.1), rgba(234, 67, 53, 0.05));
+            transform: skewY(-3deg);
+            z-index: -1;
+            border-radius: 1rem;
+        }
+
+        .skew-section.skew-alt::before {
+            transform: skewY(3deg);
+            background: linear-gradient(135deg, rgba(52, 168, 83, 0.1), rgba(251, 188, 5, 0.05));
+        }
+
+        /* 瀑布流布局 */
+        .masonry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            grid-auto-flow: dense;
+        }
+
+        .masonry-item-tall {
+            grid-row: span 2;
+        }
+
+        .masonry-item-wide {
+            grid-column: span 2;
+        }
+
+        /* 交錯排版 */
+        .zigzag-item {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .zigzag-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .zigzag-content {
+            flex: 1;
+        }
+
+        .zigzag-visual {
+            flex: 1;
+            max-width: 45%;
+        }
+
+        /* 特色卡片樣式 */
+        .feature-card {
+            position: relative;
+            padding: 2rem;
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .feature-card.card-blue {
+            background: linear-gradient(135deg, #4285F4, #1A73E8);
+            color: white;
+        }
+
+        .feature-card.card-red {
+            background: linear-gradient(135deg, #EA4335, #C5221F);
+            color: white;
+        }
+
+        .feature-card.card-yellow {
+            background: linear-gradient(135deg, #FBBC05, #F29900);
+            color: #333;
+        }
+
+        .feature-card.card-green {
+            background: linear-gradient(135deg, #34A853, #188038);
+            color: white;
+        }
+
+        /* 數據統計區塊 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .zigzag-item {
+                flex-direction: column !important;
+            }
+
+            .zigzag-visual {
+                max-width: 100%;
+            }
+
+            .masonry-item-wide {
+                grid-column: span 1;
+            }
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
+
+        /* 時間軸樣式 */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #4285F4, #EA4335, #FBBC05, #34A853);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 0.25rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background: #4285F4;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .timeline-item:nth-child(2)::before {
+            background: #EA4335;
+        }
+
+        .timeline-item:nth-child(3)::before {
+            background: #FBBC05;
+        }
+
+        .timeline-item:nth-child(4)::before {
+            background: #34A853;
+        }
+
+        /* 引言區塊 */
+        .quote-block {
+            position: relative;
+            padding: 2rem 2rem 2rem 4rem;
+            background: linear-gradient(135deg, rgba(66, 133, 244, 0.1), transparent);
+            border-radius: 1rem;
+            font-size: 1.25rem;
+            font-style: italic;
+        }
+
+        .quote-block::before {
+            content: '"';
+            position: absolute;
+            left: 1rem;
+            top: 0.5rem;
+            font-size: 4rem;
+            color: #4285F4;
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        /* 浮動標籤 */
+        .floating-badge {
+            position: absolute;
+            top: -0.5rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #EA4335, #FBBC05);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 2rem;
+            box-shadow: 0 4px 12px rgba(234, 67, 53, 0.3);
+            transform: rotate(3deg);
         }
     </style>
 </head>
 
-<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300">
+<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
 
     <div id="root"></div>
 
@@ -141,11 +710,13 @@
             { k: "Technical PM", alt: ["技術產品經理"], tc: "技術產品經理是 PM 的一種類型，需具備較深的技術背景，能與工程團隊深度合作並理解技術限制與可能性。" },
         ];
 
-        // 影片列表
+        // 影片列表（團隊成員自我介紹）
         const videoList = [
-            { title: "【待補充】PM 產品經理入門介紹", url: "https://youtu.be/dQw4w9WgXcQ" },
-            { title: "【待補充】Google PM 面試技巧", url: "https://youtu.be/dQw4w9WgXcQ" },
-            { title: "【待補充】產品經理日常工作分享", url: "https://youtu.be/dQw4w9WgXcQ" },
+            { title: "Neil Yeh - 自我介紹", url: "https://youtu.be/7rQW9K7U9nY?si=vVZR9yLGjDbqGfA2" },
+            { title: "Alex Yang - 自我介紹", url: "https://youtu.be/xfbW9uB0P3Q?si=xufo2IQE97iQIE_7" },
+            { title: "Lizard Lu - 自我介紹", url: "https://youtu.be/tJLdz9Az5kc?si=nt0RJlpWeVW_Wd4U" },
+            { title: "Skyler Gan - 自我介紹", url: "https://youtu.be/hqsLfioT8dM?si=7g-WSXGcqDokNVJh" },
+            { title: "Shereen Setiawan - 自我介紹", url: "https://youtu.be/rljUeDQWIcQ?si=RgsmdNmT09albjWC" },
         ];
 
         // 章節資料
@@ -424,37 +995,19 @@
                 },
                 {
                     id: 5,
-                    title: "精選短片",
-                    icon: "fa-video",
-                    highlights: [
-                        "透過影片學習 PM 相關知識",
-                        "觀看業界專家分享的經驗"
-                    ],
-                    actionPlan: [
-                        "觀看推薦的 PM 入門影片",
-                        "反思影片內容與自身經驗的連結"
-                    ],
-                    keywords: ["影片學習", "多媒體"],
-                    themes: [],
-                    flashcards: [],
-                    quiz: [
-                        { q: "我有觀看推薦的學習影片嗎？" }
-                    ],
-                    videos: videoList
-                },
-                {
-                    id: 6,
                     title: "團隊介紹",
                     icon: "fa-users",
                     highlights: [
                         "認識專案團隊成員與分工",
+                        "觀看團隊成員自我介紹影片",
                         "了解團隊協作的學習心得"
                     ],
                     actionPlan: [
                         "了解團隊成員的角色分工",
+                        "觀看成員自我介紹影片",
                         "閱讀團隊學習心得反思"
                     ],
-                    keywords: ["團隊", "協作"],
+                    keywords: ["團隊", "協作", "自我介紹"],
                     themes: [
                         {
                             title: "團隊心得",
@@ -465,19 +1018,23 @@
                     ],
                     flashcards: [],
                     quiz: [
-                        { q: "我了解團隊成員的分工嗎？" }
+                        { q: "我了解團隊成員的分工嗎？" },
+                        { q: "我有觀看團隊成員的自我介紹影片嗎？" }
                     ],
+                    videos: videoList,
                     team: {
                         members: [
-                            { name: "組員 A", role: "資料蒐集", img: "https://i.pravatar.cc/150?img=11" },
-                            { name: "組員 B", role: "內容編輯", img: "https://i.pravatar.cc/150?img=5" },
-                            { name: "組員 C", role: "技術開發", img: "https://i.pravatar.cc/150?img=3" }
+                            { name: "Neil Yeh", role: "網頁介面設計", img: "https://i.pravatar.cc/150?img=11" },
+                            { name: "Alex Yang", role: "專案整合&網站架設", img: "photo/Alex Yang.jpg" },
+                            { name: "Lizard Lu", role: "資料整理&內容編輯", img: "photo/Lizard Lu.jpg" },
+                            { name: "Skyler Gan", role: "團員", img: "photo/Skyler Gan.jpg" },
+                            { name: "Shereen Setiawan", role: "團員", img: "https://i.pravatar.cc/150?img=9" }
                         ],
                         reflection: "透過這次專案，我們深入了解了 Google PM 的職務需求與核心能力。我們學習到產品經理不只是需求的執行者，更是策略的制定者與跨部門的溝通橋樑。這個探索過程讓我們對未來職涯有了更清晰的方向。"
                     }
                 },
                 {
-                    id: 7,
+                    id: 6,
                     title: "使用歷程",
                     icon: "fa-tachometer-alt",
                     highlights: [
@@ -558,7 +1115,7 @@
             );
         };
 
-        // Theme Explorer Component
+        // Theme Explorer Component - Premium Design
         const ThemeExplorer = ({ themes, label }) => {
             const [selectedMajor, setSelectedMajor] = useState(0);
             const [selectedMinor, setSelectedMinor] = useState(0);
@@ -570,14 +1127,16 @@
             const minorTheme = subThemes[selectedMinor];
 
             return (
-                <div className="mt-8 p-6 bg-slate-100 dark:bg-slate-800 rounded-lg border-l-4 border-brand-500 shadow-sm">
-                    <div className="flex items-center mb-5">
-                        <i className="fas fa-compass text-brand-500 dark:text-brand-400 text-xl mr-3"></i>
-                        <h4 className="text-lg font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider brand-serif">{label}</h4>
+                <div className="glass premium-card mt-6 p-5 rounded-2xl border-l-4 border-google-yellow">
+                    <div className="flex items-center mb-4">
+                        <div className="w-8 h-8 rounded-full bg-google-yellow/20 flex items-center justify-center mr-3">
+                            <i className="fas fa-compass text-google-yellow"></i>
+                        </div>
+                        <h4 className="text-base font-semibold text-gray-800 dark:text-white">{label}</h4>
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-3">
                         <select
-                            className="w-full p-3 rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm font-medium focus:ring-1 focus:ring-brand-500 outline-none"
+                            className="w-full p-3 rounded-xl border-0 bg-white/50 dark:bg-gray-700/50 text-sm font-medium focus:ring-2 focus:ring-google-blue outline-none transition-all"
                             value={selectedMajor}
                             onChange={(e) => { setSelectedMajor(Number(e.target.value)); setSelectedMinor(0); }}
                         >
@@ -587,13 +1146,13 @@
                     {subThemes.length > 0 && (
                         <div className="animate-fade-in">
                             <select
-                                className="w-full p-3 rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm mb-4 outline-none"
+                                className="w-full p-3 rounded-xl border-0 bg-white/50 dark:bg-gray-700/50 text-sm mb-3 outline-none transition-all"
                                 value={selectedMinor}
                                 onChange={(e) => setSelectedMinor(Number(e.target.value))}
                             >
                                 {subThemes.map((t, i) => <option key={i} value={i}>{t.title}</option>)}
                             </select>
-                            <div className="p-5 bg-white dark:bg-slate-900 rounded shadow-inner text-slate-700 dark:text-slate-300 leading-relaxed brand-serif text-sm border border-slate-100 dark:border-slate-700">
+                            <div className="p-4 bg-white/70 dark:bg-gray-800/70 rounded-xl text-gray-700 dark:text-gray-300 leading-relaxed text-sm">
                                 {minorTheme?.content}
                             </div>
                         </div>
@@ -602,26 +1161,27 @@
             );
         };
 
-        // Self-Check Quiz Component
+        // Self-Check Quiz Component - Premium Design
         const SelfCheck = ({ questions, answers, onAnswer, labels }) => {
             return (
-                <div className="space-y-4">
+                <div className="space-y-3">
                     {questions.map((q, idx) => {
                         const val = answers[idx];
                         return (
-                            <div key={idx} className="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow">
-                                <p className="font-semibold text-slate-800 dark:text-slate-200 mb-4 brand-serif">{idx + 1}. {q.q}</p>
-                                <div className="flex gap-3">
+                            <div key={idx} className="glass premium-card p-4 rounded-2xl stagger-item animate-scale-in" style={{ animationDelay: `${idx * 0.1}s` }}>
+                                <p className="font-medium text-gray-800 dark:text-gray-200 mb-3 text-sm">{idx + 1}. {q.q}</p>
+                                <div className="flex gap-2">
                                     {[
-                                        { v: 1, l: labels.yes, c: 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100' },
-                                        { v: 0, l: labels.unsure, c: 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100' },
-                                        { v: -1, l: labels.no, c: 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100' }
+                                        { v: 1, l: labels.yes, c: 'bg-google-green hover:bg-google-green/80', icon: 'fa-check' },
+                                        { v: 0, l: labels.unsure, c: 'bg-google-yellow hover:bg-google-yellow/80', icon: 'fa-question' },
+                                        { v: -1, l: labels.no, c: 'bg-google-red hover:bg-google-red/80', icon: 'fa-times' }
                                     ].map(opt => (
                                         <button
                                             key={opt.v}
                                             onClick={() => onAnswer(idx, opt.v)}
-                                            className={`flex-1 py-2 rounded text-xs font-bold transition border ${val === opt.v ? 'ring-2 ring-brand-500 ring-offset-1 ' + opt.c : 'opacity-70 ' + opt.c}`}
+                                            className={`flex-1 py-2 px-3 rounded-full text-xs font-bold transition-all btn-premium flex items-center justify-center gap-1 ${val === opt.v ? opt.c + ' text-white ring-2 ring-offset-2 ring-gray-300' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'}`}
                                         >
+                                            <i className={`fas ${opt.icon} text-[10px]`}></i>
                                             {opt.l}
                                         </button>
                                     ))}
@@ -633,17 +1193,17 @@
             );
         };
 
-        // Flashcard Component
+        // Flashcard Component - Premium Design
         const Flashcard = ({ front, back }) => {
             const [flipped, setFlipped] = useState(false);
             return (
-                <div className="group w-full h-40 cursor-pointer perspective-1000" onClick={() => setFlipped(!flipped)} onMouseLeave={() => setFlipped(false)}>
+                <div className="group w-full h-36 cursor-pointer perspective-1000" onClick={() => setFlipped(!flipped)} onMouseLeave={() => setFlipped(false)}>
                     <div className={`relative w-full h-full text-center transition-transform duration-700 transform-style-3d ${flipped ? 'rotate-y-180' : ''}`}>
-                        <div className="absolute w-full h-full backface-hidden bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center p-6 z-10 group-hover:shadow-md transition-shadow">
-                            <h3 className="text-lg font-bold text-brand-600 dark:text-brand-400 brand-serif">{front}</h3>
-                            <p className="text-xs text-slate-400 mt-2">Click to flip</p>
+                        <div className="absolute w-full h-full backface-hidden glass premium-card rounded-2xl flex flex-col items-center justify-center p-4 z-10">
+                            <h3 className="text-base font-bold gradient-text">{front}</h3>
+                            <p className="text-[10px] text-gray-400 mt-2 flex items-center"><i className="fas fa-hand-pointer mr-1"></i>點擊翻轉</p>
                         </div>
-                        <div className="absolute w-full h-full backface-hidden bg-brand-600 text-white rounded-lg shadow-sm flex items-center justify-center p-6 rotate-y-180">
+                        <div className="absolute w-full h-full backface-hidden bg-gradient-to-br from-google-blue to-google-green text-white rounded-2xl shadow-google flex items-center justify-center p-4 rotate-y-180">
                             <p className="text-sm font-medium leading-relaxed">{back}</p>
                         </div>
                     </div>
@@ -651,7 +1211,7 @@
             );
         };
 
-        // Video Card Component
+        // Video Card Component - Premium Design
         const VideoCard = ({ video, label }) => {
             const getYouTubeID = (url) => {
                 const match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/);
@@ -662,16 +1222,18 @@
 
             return (
                 <a href={video.url} target="_blank" rel="noopener noreferrer" className="block group">
-                    <div className="bg-white dark:bg-slate-800 rounded-lg overflow-hidden shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300">
-                        <div className="relative aspect-video bg-slate-100 dark:bg-slate-700 overflow-hidden">
-                            <img src={thumbUrl} alt={video.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100" />
-                            <div className="absolute inset-0 flex items-center justify-center bg-brand-600 bg-opacity-0 group-hover:bg-opacity-20 transition-all">
-                                <i className="fas fa-play-circle text-4xl text-white opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300"></i>
+                    <div className="glass premium-card rounded-2xl overflow-hidden">
+                        <div className="relative aspect-video bg-gray-100 dark:bg-gray-700 overflow-hidden">
+                            <img src={thumbUrl} alt={video.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all">
+                                <div className="w-14 h-14 rounded-full bg-google-red flex items-center justify-center shadow-lg transform scale-75 group-hover:scale-100 transition-all">
+                                    <i className="fas fa-play text-white text-xl ml-1"></i>
+                                </div>
                             </div>
                         </div>
                         <div className="p-4">
-                            <h4 className="font-semibold text-slate-800 dark:text-slate-100 text-sm line-clamp-2 mb-2 group-hover:text-brand-600 transition-colors brand-serif">{video.title}</h4>
-                            <span className="text-xs text-brand-600 font-bold uppercase tracking-wider flex items-center">{label} <i className="fas fa-arrow-right ml-1 text-[10px]"></i></span>
+                            <h4 className="font-semibold text-gray-800 dark:text-white text-sm line-clamp-2 mb-2 group-hover:text-google-blue transition-colors">{video.title}</h4>
+                            <span className="text-xs text-google-red font-bold uppercase tracking-wider flex items-center">{label} <i className="fas fa-external-link-alt ml-1 text-[10px]"></i></span>
                         </div>
                     </div>
                 </a>
@@ -857,89 +1419,431 @@
             const toggleDarkMode = () => setDarkMode(!darkMode);
 
             return (
-                <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950">
+                <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 relative overflow-hidden">
 
-                    {/* Fixed Header */}
-                    <header className="fixed top-0 left-0 w-full h-16 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 shadow-sm z-50 flex items-center px-4 md:px-6 justify-between transition-all">
+                    {/* Decorative Background Blobs - Animated */}
+                    <div className="gradient-blob blob-1 w-96 h-96 bg-google-blue top-20 -left-48 fixed"></div>
+                    <div className="gradient-blob blob-2 w-80 h-80 bg-google-red top-1/3 -right-40 fixed"></div>
+                    <div className="gradient-blob blob-3 w-72 h-72 bg-google-green bottom-20 left-1/4 fixed"></div>
+                    <div className="gradient-blob blob-4 w-64 h-64 bg-google-yellow bottom-1/3 right-1/4 fixed"></div>
+
+                    {/* Fixed Header - Premium Glass Style */}
+                    <header className="fixed top-0 left-0 w-full h-16 glass shadow-google z-50 flex items-center px-4 md:px-6 justify-between transition-all">
                         <div className="flex items-center gap-4">
-                            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-slate-500 hover:text-brand-600 focus:outline-none transition-colors">
+                            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="w-10 h-10 rounded-full hover:bg-gray-100/50 dark:hover:bg-gray-700/50 flex items-center justify-center text-gray-600 dark:text-gray-300 focus:outline-none transition-all btn-premium">
                                 <i className="fas fa-bars text-xl"></i>
                             </button>
                             <div className="flex items-center">
-                                <div className="w-10 h-10 bg-brand-600 flex items-center justify-center rounded-lg mr-3 shadow-sm">
-                                    <i className="fa-solid fa-graduation-cap text-white text-lg"></i>
+                                {/* Google 四色 Logo with Animation */}
+                                <div className="flex items-center mr-2">
+                                    <span className="text-2xl font-bold tracking-tight gradient-text animate-float">
+                                        Google
+                                    </span>
                                 </div>
-                                <div className="hidden sm:block">
-                                    <span className="text-brand-900 dark:text-white font-bold text-sm md:text-base brand-serif">{APP_DATA.meta.title}</span>
-                                    <span className="text-slate-400 text-xs block">{APP_DATA.meta.slogan}</span>
+                                <div className="hidden sm:block ml-2">
+                                    <span className="text-gray-800 dark:text-white font-semibold text-base">PM 職涯探索</span>
+                                    <span className="text-gray-500 dark:text-gray-400 text-xs block">{APP_DATA.meta.slogan}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-4">
-                            <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-accent-400">
+                        <div className="flex items-center gap-2">
+                            <button onClick={toggleDarkMode} className="w-10 h-10 rounded-full hover:bg-gray-100/50 dark:hover:bg-gray-700/50 flex items-center justify-center text-gray-600 dark:text-google-yellow transition-all btn-premium">
                                 {darkMode ? <i className="fa-solid fa-sun text-lg"></i> : <i className="fa-solid fa-moon text-lg"></i>}
                             </button>
                         </div>
                     </header>
 
-                    <div className="flex pt-16 min-h-screen">
+                    <div className="flex pt-16 min-h-screen relative z-10">
 
-                        {/* Sidebar */}
-                        <aside className={`fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-white dark:bg-slate-900 border-r border-slate-100 dark:border-slate-800 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out z-40 flex flex-col overflow-hidden shadow-lg`}>
-                            <div className="flex-1 overflow-y-auto no-scrollbar py-6">
-                                <p className="px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-6">{APP_DATA.labels.nav}</p>
-                                <ul className="space-y-1 px-3">
-                                    {APP_DATA.sections.map((sec, idx) => (
-                                        <li key={sec.id}>
-                                            <button
-                                                onClick={() => {
-                                                    setActiveSection(idx);
-                                                    if (window.innerWidth < 1024) setSidebarOpen(false);
-                                                    window.scrollTo(0, 0);
-                                                }}
-                                                className={`w-full text-left px-4 py-3 text-sm font-medium rounded-md transition-all flex items-center ${activeSection === idx ? 'bg-brand-50 text-brand-700 dark:bg-slate-800 dark:text-brand-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-800'}`}
-                                            >
-                                                <i className={`fas ${sec.icon} w-6 text-center text-xs mr-3 opacity-70`}></i>
-                                                <span className="truncate">{sec.title}</span>
-                                            </button>
-                                        </li>
-                                    ))}
+                        {/* Sidebar - Premium Glass Style */}
+                        <aside className={`fixed top-16 left-0 h-[calc(100vh-4rem)] w-72 glass transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out z-40 flex flex-col overflow-hidden`}>
+                            <div className="flex-1 overflow-y-auto no-scrollbar py-4">
+                                <p className="px-6 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">{APP_DATA.labels.nav}</p>
+                                <ul className="space-y-1 px-2">
+                                    {APP_DATA.sections.map((sec, idx) => {
+                                        const googleColors = ['text-google-blue', 'text-google-red', 'text-google-yellow', 'text-google-green'];
+                                        const colorClass = googleColors[idx % 4];
+                                        return (
+                                            <li key={sec.id}>
+                                                <button
+                                                    onClick={() => {
+                                                        setActiveSection(idx);
+                                                        if (window.innerWidth < 1024) setSidebarOpen(false);
+                                                        window.scrollTo(0, 0);
+                                                    }}
+                                                    className={`w-full text-left px-4 py-3 text-sm font-medium rounded-full transition-all flex items-center ${activeSection === idx ? 'bg-brand-50 dark:bg-gray-700 text-brand-600 dark:text-brand-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
+                                                >
+                                                    <i className={`fas ${sec.icon} w-6 text-center text-sm mr-3 ${activeSection === idx ? colorClass : 'text-gray-400'}`}></i>
+                                                    <span className="truncate">{sec.title}</span>
+                                                </button>
+                                            </li>
+                                        );
+                                    })}
                                 </ul>
                             </div>
                         </aside>
 
                         {/* Main Content */}
-                        <main ref={mainContentRef} className={`flex-1 w-full transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'ml-0'}`}>
+                        <main ref={mainContentRef} className={`flex-1 w-full transition-all duration-300 ${sidebarOpen ? 'lg:ml-72' : 'ml-0'}`}>
                             <div className="max-w-5xl mx-auto p-6 md:p-12 pb-32">
 
-                                {/* Section Header */}
+                                {/* Section Header - Google Style */}
                                 <header className="mb-10">
-                                    <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white leading-tight brand-serif flex items-center">
-                                        <div className="w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center text-lg mr-4 shadow-md shrink-0">
-                                            <i className={`fas ${currentSection.icon}`}></i>
-                                        </div>
+                                    <h2 className="text-2xl md:text-3xl font-medium text-gray-900 dark:text-white leading-tight flex items-center">
+                                        {(() => {
+                                            const googleColors = ['bg-google-blue', 'bg-google-red', 'bg-google-yellow', 'bg-google-green'];
+                                            const colorClass = googleColors[activeSection % 4];
+                                            return (
+                                                <div className={`w-10 h-10 rounded-full ${colorClass} text-white flex items-center justify-center text-lg mr-4 shadow-google shrink-0`}>
+                                                    <i className={`fas ${currentSection.icon}`}></i>
+                                                </div>
+                                            );
+                                        })()}
                                         {currentSection.title}
                                     </h2>
-                                    <div className="h-1 w-20 bg-accent-500 mt-4 rounded-full"></div>
+                                    <div className="h-1 w-24 bg-gradient-to-r from-google-blue via-google-red via-google-yellow to-google-green mt-4 rounded-full"></div>
                                 </header>
 
-                                {/* Section Content */}
+                                {/* Section Content - 根據章節選擇不同 layout */}
                                 {currentSection.isHistory ? (
                                     <UsageHistory quizScores={quizScores} sections={APP_DATA.sections} labels={APP_DATA.labels} />
+                                ) : activeSection === 0 ? (
+                                    /* Layout 1: Hero + 統計卡 + 斜角區塊 (概覽頁) */
+                                    <div className="space-y-8 animate-fade-in">
+                                        {/* Hero 區塊 */}
+                                        <div className="hero-section">
+                                            <div className="hero-content">
+                                                <h3 className="text-3xl md:text-4xl font-bold mb-4">探索 Google PM 的世界</h3>
+                                                <p className="text-lg opacity-90 max-w-2xl mx-auto">{currentSection.highlights?.[0] || ''}</p>
+                                            </div>
+                                        </div>
+
+                                        {/* 統計卡片 */}
+                                        <div className="stats-grid">
+                                            {[
+                                                { num: '150K+', label: '平均年薪 (USD)', color: 'text-google-blue' },
+                                                { num: '80%', label: '跨部門協作', color: 'text-google-red' },
+                                                { num: '5+', label: '核心技能', color: 'text-google-yellow' },
+                                                { num: '∞', label: '成長機會', color: 'text-google-green' }
+                                            ].map((s, i) => (
+                                                <div key={i} className="stat-card premium-card stagger-item animate-scale-in" style={{ animationDelay: `${i * 0.1}s` }}>
+                                                    <div className={`stat-number ${s.color}`}>{s.num}</div>
+                                                    <div className="stat-label">{s.label}</div>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        {/* 斜角區塊：Highlights */}
+                                        <div className="skew-section">
+                                            <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center">
+                                                <i className="fas fa-star text-google-yellow mr-2"></i>
+                                                {APP_DATA.labels.highlights}
+                                            </h3>
+                                            <div className="masonry-grid">
+                                                {currentSection.highlights?.map((h, i) => {
+                                                    const cardColors = ['card-blue', 'card-red', 'card-yellow', 'card-green'];
+                                                    return (
+                                                        <div key={i} className={`feature-card ${cardColors[i % 4]} premium-card stagger-item animate-fade-in`} style={{ animationDelay: `${i * 0.1}s` }}>
+                                                            <p className="text-sm leading-relaxed">{h}</p>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+
+                                        {/* Theme Explorer */}
+                                        <ThemeExplorer themes={currentSection.themes} label={APP_DATA.labels.themes} />
+
+                                        {/* Quiz */}
+                                        {currentSection.quiz && currentSection.quiz.length > 0 && (
+                                            <SelfCheck questions={currentSection.quiz} answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) => handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />
+                                        )}
+                                    </div>
+                                ) : activeSection === 1 ? (
+                                    /* Layout 2: 交錯排版 (薪資分析頁) */
+                                    <div className="space-y-8 animate-fade-in">
+                                        {/* 引言區塊 */}
+                                        <div className="quote-block">
+                                            {currentSection.highlights?.[0] || 'Google PM 是科技業最受歡迎的職位之一'}
+                                        </div>
+
+                                        {/* 交錯排版的 Highlights */}
+                                        <div className="space-y-0">
+                                            {currentSection.highlights?.slice(1).map((h, i) => (
+                                                <div key={i} className={`zigzag-item stagger-item animate-fade-in`} style={{ animationDelay: `${i * 0.15}s` }}>
+                                                    <div className="zigzag-content">
+                                                        <div className="glass premium-card p-6 rounded-2xl">
+                                                            <div className="flex items-start gap-3">
+                                                                <div className={`w-10 h-10 rounded-full ${['bg-google-blue', 'bg-google-red', 'bg-google-yellow', 'bg-google-green'][i % 4]} text-white flex items-center justify-center text-sm font-bold shrink-0`}>
+                                                                    {i + 1}
+                                                                </div>
+                                                                <p className="text-gray-700 dark:text-gray-300">{h}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="zigzag-visual">
+                                                        <div className={`h-24 rounded-2xl ${['bg-google-blue/20', 'bg-google-red/20', 'bg-google-yellow/20', 'bg-google-green/20'][i % 4]} flex items-center justify-center`}>
+                                                            <i className={`fas ${['fa-chart-line', 'fa-dollar-sign', 'fa-trophy', 'fa-rocket'][i % 4]} text-4xl ${['text-google-blue', 'text-google-red', 'text-google-yellow', 'text-google-green'][i % 4]}`}></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        {/* Action Plan 時間軸 */}
+                                        {currentSection.actionPlan && (
+                                            <div className="skew-section skew-alt">
+                                                <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-6 flex items-center">
+                                                    <i className="fas fa-tasks text-google-green mr-2"></i>
+                                                    {APP_DATA.labels.actionPlan}
+                                                </h3>
+                                                <div className="timeline">
+                                                    {currentSection.actionPlan.map((a, i) => (
+                                                        <div key={i} className="timeline-item stagger-item animate-slide-left" style={{ animationDelay: `${i * 0.1}s` }}>
+                                                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{a}</p>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        <ThemeExplorer themes={currentSection.themes} label={APP_DATA.labels.themes} />
+                                        {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz} answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) => handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
+                                    </div>
+                                ) : activeSection === 4 ? (
+                                    /* Layout 6: 學習路線連結頁 - 藍色 Hero + 時間軸 */
+                                    <div className="space-y-8 animate-fade-in">
+                                        {/* Hero 藍色 */}
+                                        <div className="hero-section">
+                                            <div className="hero-content">
+                                                <h3 className="text-3xl font-bold mb-2">學習路線連結</h3>
+                                                <p className="opacity-90">從課堂到職涯的能力養成路線</p>
+                                            </div>
+                                        </div>
+
+                                        {/* 學習路線時間軸 */}
+                                        <div className="skew-section">
+                                            <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-6 flex items-center">
+                                                <i className="fas fa-graduation-cap text-google-blue mr-2"></i>
+                                                {APP_DATA.labels.highlights}
+                                            </h3>
+                                            <div className="timeline">
+                                                {currentSection.highlights?.map((h, i) => (
+                                                    <div key={i} className="timeline-item stagger-item animate-slide-left" style={{ animationDelay: `${i * 0.15}s` }}>
+                                                        <div className="glass premium-card p-4 rounded-xl">
+                                                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{h}</p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* Action Plan 瀑布流 */}
+                                        {currentSection.actionPlan && (
+                                            <div className="masonry-grid">
+                                                {currentSection.actionPlan.map((a, i) => {
+                                                    const cardColors = ['card-blue', 'card-red', 'card-yellow', 'card-green'];
+                                                    const icons = ['fa-book', 'fa-puzzle-piece', 'fa-users-cog'];
+                                                    return (
+                                                        <div key={i} className={`feature-card ${cardColors[i % 4]} premium-card stagger-item animate-scale-in`} style={{ animationDelay: `${i * 0.1}s` }}>
+                                                            <div className="flex items-start gap-3">
+                                                                <i className={`fas ${icons[i % 3]} text-xl opacity-80`}></i>
+                                                                <p className="text-sm leading-relaxed">{a}</p>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
+
+                                        <ThemeExplorer themes={currentSection.themes} label={APP_DATA.labels.themes} />
+
+                                        {currentSection.flashcards?.length > 0 && (
+                                            <div className="masonry-grid">
+                                                {currentSection.flashcards.map((f, i) => <Flashcard key={i} front={f.front} back={f.back} />)}
+                                            </div>
+                                        )}
+
+                                        {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz} answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) => handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
+                                    </div>
+                                ) : activeSection === 5 ? (
+                                    /* Layout 3: 團隊介紹頁 - 瀑布流 */
+                                    <div className="space-y-8 animate-fade-in">
+                                        {/* Hero */}
+                                        <div className="hero-section hero-green">
+                                            <div className="hero-content">
+                                                <h3 className="text-3xl font-bold mb-2">我們的團隊</h3>
+                                                <p className="opacity-90">認識專案製作團隊成員</p>
+                                            </div>
+                                        </div>
+
+                                        {/* 團隊成員瀑布流 */}
+                                        {currentSection.team && (
+                                            <div className="masonry-grid">
+                                                {currentSection.team.members.map((m, i) => (
+                                                    <div key={i} className={`glass premium-card p-6 rounded-2xl text-center stagger-item animate-scale-in ${i === 0 ? 'masonry-item-tall' : ''}`} style={{ animationDelay: `${i * 0.1}s` }}>
+                                                        <img src={m.img} alt={m.name} className="w-20 h-20 rounded-full mx-auto mb-4 object-cover shadow-google" />
+                                                        <h4 className="font-bold text-gray-800 dark:text-white">{m.name}</h4>
+                                                        <p className={`text-sm ${['text-google-blue', 'text-google-red', 'text-google-yellow', 'text-google-green'][i % 4]}`}>{m.role}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {/* 團隊心得 */}
+                                        {currentSection.team?.reflection && (
+                                            <div className="quote-block">
+                                                {currentSection.team.reflection}
+                                            </div>
+                                        )}
+
+                                        {/* 影片區 */}
+                                        {currentSection.videos && (
+                                            <div className="skew-section">
+                                                <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center">
+                                                    <i className="fas fa-play-circle text-google-red mr-2"></i>
+                                                    團隊自我介紹影片
+                                                </h3>
+                                                <div className="masonry-grid">
+                                                    {currentSection.videos.map((v, i) => <VideoCard key={i} video={v} label={APP_DATA.labels.watchVideo} />)}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz} answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) => handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
+                                    </div>
+                                ) : activeSection === 2 ? (
+                                    /* Layout 4: 核心能力頁 - 全寬特色卡片 */
+                                    <div className="space-y-8 animate-fade-in">
+                                        {/* Hero 紅色 */}
+                                        <div className="hero-section hero-red">
+                                            <div className="hero-content">
+                                                <h3 className="text-3xl font-bold mb-2">核心能力需求</h3>
+                                                <p className="opacity-90">成為 Google PM 需要具備的關鍵能力</p>
+                                            </div>
+                                        </div>
+
+                                        {/* 全寬特色卡片 */}
+                                        <div className="space-y-4">
+                                            {currentSection.highlights?.map((h, i) => {
+                                                const cardColors = ['card-blue', 'card-red', 'card-yellow', 'card-green'];
+                                                const icons = ['fa-brain', 'fa-users', 'fa-chart-bar', 'fa-lightbulb', 'fa-code'];
+                                                return (
+                                                    <div key={i} className={`feature-card ${cardColors[i % 4]} premium-card stagger-item animate-slide-left relative`} style={{ animationDelay: `${i * 0.1}s` }}>
+                                                        {i === 0 && <span className="floating-badge">重要</span>}
+                                                        <div className="flex items-center gap-4">
+                                                            <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                                                                <i className={`fas ${icons[i % 5]} text-xl`}></i>
+                                                            </div>
+                                                            <p className="text-base leading-relaxed">{h}</p>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+
+                                        {/* Action Plan 時間軸 */}
+                                        {currentSection.actionPlan && (
+                                            <div className="skew-section">
+                                                <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-6 flex items-center">
+                                                    <i className="fas fa-route text-google-blue mr-2"></i>
+                                                    {APP_DATA.labels.actionPlan}
+                                                </h3>
+                                                <div className="timeline">
+                                                    {currentSection.actionPlan.map((a, i) => (
+                                                        <div key={i} className="timeline-item stagger-item animate-slide-left" style={{ animationDelay: `${i * 0.1}s` }}>
+                                                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{a}</p>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        <ThemeExplorer themes={currentSection.themes} label={APP_DATA.labels.themes} />
+
+                                        {/* Flashcards */}
+                                        {currentSection.flashcards?.length > 0 && (
+                                            <div className="masonry-grid">
+                                                {currentSection.flashcards.map((f, i) => <Flashcard key={i} front={f.front} back={f.back} />)}
+                                            </div>
+                                        )}
+
+                                        {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz} answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) => handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
+                                    </div>
+                                ) : activeSection === 3 ? (
+                                    /* Layout 5: 技能對應頁 - 瀑布流卡片 */
+                                    <div className="space-y-8 animate-fade-in">
+                                        {/* Hero 黃色 */}
+                                        <div className="hero-section hero-yellow">
+                                            <div className="hero-content" style={{ color: '#333' }}>
+                                                <h3 className="text-3xl font-bold mb-2">具體技能對應</h3>
+                                                <p className="opacity-80">將核心能力轉化為可實踐的具體技能</p>
+                                            </div>
+                                        </div>
+
+                                        {/* 瀑布流 Highlights */}
+                                        <div className="masonry-grid">
+                                            {currentSection.highlights?.map((h, i) => (
+                                                <div key={i} className={`glass premium-card p-5 rounded-2xl stagger-item animate-scale-in ${i % 3 === 0 ? 'masonry-item-tall' : ''}`} style={{ animationDelay: `${i * 0.08}s` }}>
+                                                    <div className={`w-8 h-8 rounded-full ${['bg-google-blue', 'bg-google-red', 'bg-google-yellow', 'bg-google-green'][i % 4]} text-white flex items-center justify-center text-sm mb-3`}>
+                                                        <i className="fas fa-check"></i>
+                                                    </div>
+                                                    <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{h}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        {/* 交錯排版 Action Plan */}
+                                        {currentSection.actionPlan && (
+                                            <div className="skew-section skew-alt">
+                                                <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center">
+                                                    <i className="fas fa-clipboard-list text-google-red mr-2"></i>
+                                                    {APP_DATA.labels.actionPlan}
+                                                </h3>
+                                                <div className="space-y-3">
+                                                    {currentSection.actionPlan.map((a, i) => (
+                                                        <div key={i} className="zigzag-item stagger-item animate-fade-in" style={{ animationDelay: `${i * 0.1}s` }}>
+                                                            <div className="zigzag-content">
+                                                                <div className={`feature-card ${['card-blue', 'card-red', 'card-yellow', 'card-green'][i % 4]} premium-card`}>
+                                                                    <p className="text-sm">{a}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        <ThemeExplorer themes={currentSection.themes} label={APP_DATA.labels.themes} />
+
+                                        {currentSection.flashcards?.length > 0 && (
+                                            <div className="masonry-grid">
+                                                {currentSection.flashcards.map((f, i) => <Flashcard key={i} front={f.front} back={f.back} />)}
+                                            </div>
+                                        )}
+
+                                        {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz} answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) => handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
+                                    </div>
                                 ) : (
-                                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 animate-fade-in">
+                                    /* 預設 Layout: 雙欄式 */
+                                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fade-in">
                                         {/* Left Column */}
-                                        <div className="lg:col-span-7 space-y-8">
+                                        <div className="lg:col-span-7 space-y-6">
                                             {/* Highlights */}
                                             {currentSection.highlights && currentSection.highlights.length > 0 && (
-                                                <section>
-                                                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">{APP_DATA.labels.highlights}</h3>
-                                                    <div className="bg-white dark:bg-slate-800 p-6 rounded-lg border-l-4 border-brand-500 shadow-sm space-y-4">
+                                                <section className="stagger-item animate-fade-in">
+                                                    <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
+                                                        <i className="fas fa-star text-google-yellow mr-2"></i>
+                                                        {APP_DATA.labels.highlights}
+                                                    </h3>
+                                                    <div className="glass premium-card p-5 rounded-2xl border-l-4 border-google-blue space-y-3">
                                                         {currentSection.highlights.map((h, i) => (
-                                                            <div key={i} className="flex items-start">
-                                                                <i className="fas fa-check text-brand-500 mt-1 mr-3 text-xs"></i>
-                                                                <p className="text-base text-slate-700 dark:text-slate-300 brand-serif leading-relaxed">{h}</p>
+                                                            <div key={i} className="flex items-start stagger-item animate-slide-left" style={{ animationDelay: `${i * 0.1}s` }}>
+                                                                <div className="w-6 h-6 rounded-full bg-google-green/10 flex items-center justify-center mr-3 shrink-0">
+                                                                    <i className="fas fa-check text-google-green text-xs"></i>
+                                                                </div>
+                                                                <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{h}</p>
                                                             </div>
                                                         ))}
                                                     </div>
@@ -948,18 +1852,25 @@
 
                                             {/* Action Plan */}
                                             {currentSection.actionPlan && currentSection.actionPlan.length > 0 && (
-                                                <section>
-                                                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">{APP_DATA.labels.actionPlan}</h3>
-                                                    <div className="bg-green-50 dark:bg-slate-900 p-6 rounded-lg border border-green-100 dark:border-slate-800">
+                                                <section className="stagger-item animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                                                    <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
+                                                        <i className="fas fa-rocket text-google-red mr-2"></i>
+                                                        {APP_DATA.labels.actionPlan}
+                                                    </h3>
+                                                    <div className="glass premium-card p-5 rounded-2xl border-l-4 border-google-green">
                                                         <ul className="space-y-3">
-                                                            {currentSection.actionPlan.map((a, i) => (
-                                                                <li key={i} className="flex items-center text-sm font-medium text-slate-800 dark:text-slate-200">
-                                                                    <span className="w-6 h-6 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center text-green-600 text-xs mr-3 shadow-sm border border-green-100 dark:border-slate-700">
-                                                                        {i + 1}
-                                                                    </span>
-                                                                    {a}
-                                                                </li>
-                                                            ))}
+                                                            {currentSection.actionPlan.map((a, i) => {
+                                                                const googleColors = ['bg-google-blue', 'bg-google-red', 'bg-google-yellow', 'bg-google-green'];
+                                                                const colorClass = googleColors[i % 4];
+                                                                return (
+                                                                    <li key={i} className="flex items-center text-sm font-medium text-gray-700 dark:text-gray-200 stagger-item animate-slide-left" style={{ animationDelay: `${i * 0.1}s` }}>
+                                                                        <span className={`w-7 h-7 rounded-full ${colorClass} text-white flex items-center justify-center text-xs mr-3 shadow-sm font-bold`}>
+                                                                            {i + 1}
+                                                                        </span>
+                                                                        {a}
+                                                                    </li>
+                                                                );
+                                                            })}
                                                         </ul>
                                                     </div>
                                                 </section>
@@ -967,17 +1878,25 @@
 
                                             {/* Keywords & Theme Explorer */}
                                             {currentSection.keywords && currentSection.keywords.length > 0 && (
-                                                <section>
-                                                    <div className="flex flex-wrap gap-2 mb-2">
-                                                        {currentSection.keywords.map((k, i) => (
-                                                            <button
-                                                                key={i}
-                                                                onClick={() => handleKeywordClick(k)}
-                                                                className="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded text-xs font-semibold uppercase tracking-wide hover:bg-brand-600 hover:text-white transition-colors cursor-pointer"
-                                                            >
-                                                                #{k}
-                                                            </button>
-                                                        ))}
+                                                <section className="stagger-item animate-fade-in" style={{ animationDelay: '0.3s' }}>
+                                                    <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
+                                                        <i className="fas fa-tags text-google-blue mr-2"></i>
+                                                        關鍵字
+                                                    </h3>
+                                                    <div className="flex flex-wrap gap-2 mb-4">
+                                                        {currentSection.keywords.map((k, i) => {
+                                                            const googleColors = ['bg-google-blue', 'bg-google-red', 'bg-google-yellow', 'bg-google-green'];
+                                                            const colorClass = googleColors[i % 4];
+                                                            return (
+                                                                <button
+                                                                    key={i}
+                                                                    onClick={() => handleKeywordClick(k)}
+                                                                    className={`px-4 py-2 ${colorClass} text-white rounded-full text-xs font-semibold hover:scale-105 transition-all shadow-sm cursor-pointer btn-premium`}
+                                                                >
+                                                                    #{k}
+                                                                </button>
+                                                            );
+                                                        })}
                                                     </div>
                                                     <ThemeExplorer themes={currentSection.themes} label={APP_DATA.labels.themes} />
                                                 </section>
@@ -991,11 +1910,14 @@
                                         </div>
 
                                         {/* Right Column */}
-                                        <div className="lg:col-span-5 space-y-8">
+                                        <div className="lg:col-span-5 space-y-6">
                                             {/* Videos */}
                                             {currentSection.videos && currentSection.videos.length > 0 && (
-                                                <section>
-                                                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">{APP_DATA.labels.videos}</h3>
+                                                <section className="stagger-item animate-slide-right">
+                                                    <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
+                                                        <i className="fas fa-play-circle text-google-red mr-2"></i>
+                                                        {APP_DATA.labels.videos}
+                                                    </h3>
                                                     <div className="grid gap-4">
                                                         {currentSection.videos.map((v, i) => <VideoCard key={i} video={v} label={APP_DATA.labels.watchVideo} />)}
                                                     </div>
@@ -1004,9 +1926,12 @@
 
                                             {/* Flashcards */}
                                             {currentSection.flashcards && currentSection.flashcards.length > 0 && (
-                                                <section>
-                                                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">{APP_DATA.labels.flashcards}</h3>
-                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <section className="stagger-item animate-slide-right" style={{ animationDelay: '0.1s' }}>
+                                                    <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
+                                                        <i className="fas fa-clone text-google-yellow mr-2"></i>
+                                                        {APP_DATA.labels.flashcards}
+                                                    </h3>
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                                         {currentSection.flashcards.map((f, i) => <Flashcard key={i} front={f.front} back={f.back} />)}
                                                     </div>
                                                 </section>
@@ -1014,8 +1939,11 @@
 
                                             {/* Self-Check Quiz */}
                                             {currentSection.quiz && currentSection.quiz.length > 0 && (
-                                                <section>
-                                                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">{APP_DATA.labels.quiz}</h3>
+                                                <section className="stagger-item animate-slide-right" style={{ animationDelay: '0.2s' }}>
+                                                    <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
+                                                        <i className="fas fa-clipboard-check text-google-green mr-2"></i>
+                                                        {APP_DATA.labels.quiz}
+                                                    </h3>
                                                     <SelfCheck
                                                         questions={currentSection.quiz}
                                                         answers={quizScores[currentSection.id] || {}}
