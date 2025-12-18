@@ -591,6 +591,10 @@
             backdrop-filter: blur(10px);
         }
 
+        .dark .stat-card {
+            background: rgba(30, 41, 59, 0.8);
+        }
+
         .stat-number {
             font-size: 2.5rem;
             font-weight: 700;
@@ -603,6 +607,11 @@
             letter-spacing: 0.1em;
             opacity: 0.7;
             margin-top: 0.5rem;
+            color: #374151;
+        }
+
+        .dark .stat-label {
+            color: #d1d5db;
         }
 
         /* 時間軸樣式 */
@@ -729,6 +738,8 @@
                     important: "重要",
                     flipHint: "點擊翻轉",
                     teamVideos: "團隊自我介紹影片",
+                    answeredQuestions: "已回答題數",
+                    scoreLabel: "總分",
                 },
                 ui: {
                     hero0Title: "探索 Google PM 的世界",
@@ -778,6 +789,8 @@
                     important: "Important",
                     flipHint: "Click to flip",
                     teamVideos: "Team Introduction Videos",
+                    answeredQuestions: "Questions Answered",
+                    scoreLabel: "Score",
                 },
                 ui: {
                     hero0Title: "Explore the World of Google PM",
@@ -802,9 +815,9 @@
 
         // 章節標題翻譯
         const sectionTitles = {
-            zh: ["Google PM 概覽", "薪資待遇與市場分析", "核心能力需求", "具體技能對應", "學習路線連結", "團隊介紹", "使用歷程"],
+            zh: ["Google PM 概覽", "薪資待遇與市場分析", "核心能力需求", "具體技能對應", "學習路線連結", "團隊介紹", "使用歷程", "問卷回饋"],
             en: ["Google PM Overview", "Salary & Market Analysis", "Core Competencies", "Skills Mapping", "Learning Pathway",
-                "Team Introduction", "Usage History"],
+                "Team Introduction", "Usage History", "Feedback Survey"],
         };
 
         // 術語表資料（雙語）
@@ -1175,6 +1188,25 @@
                 flashcards: [],
                 quiz: [],
                 isHistory: true
+            },
+            {
+                id: 7,
+                title: "Feedback Survey",
+                icon: "fa-comment-dots",
+                highlights: [
+                    "Share your learning experience and feedback",
+                    "Help us improve the course content"
+                ],
+                actionPlan: [
+                    "Complete the feedback survey",
+                    "Share your suggestions"
+                ],
+                keywords: ["Feedback", "Survey"],
+                themes: [],
+                flashcards: [],
+                quiz: [],
+                isSurvey: true,
+                surveyUrl: "https://docs.google.com/forms/d/e/1FAIpQLSc9vUF3yew6adpwx7KFhN4-NHvsp7hwBzqaawwyr9oKjkqskg/viewform?embedded=true"
             }
         ];
 
@@ -1515,6 +1547,25 @@
                     flashcards: [],
                     quiz: [],
                     isHistory: true
+                },
+                {
+                    id: 7,
+                    title: "問卷回饋",
+                    icon: "fa-comment-dots",
+                    highlights: [
+                        "分享您的學習體驗與回饋",
+                        "協助我們改善課程內容"
+                    ],
+                    actionPlan: [
+                        "完成問卷填寫",
+                        "分享您的建議"
+                    ],
+                    keywords: ["回饋", "問卷"],
+                    themes: [],
+                    flashcards: [],
+                    quiz: [],
+                    isSurvey: true,
+                    surveyUrl: "https://docs.google.com/forms/d/e/1FAIpQLSc9vUF3yew6adpwx7KFhN4-NHvsp7hwBzqaawwyr9oKjkqskg/viewform?embedded=true"
                 }
             ],
             footer: {
@@ -1665,7 +1716,7 @@
         };
 
         // Flashcard Component - Premium Design
-        const Flashcard = ({ front, back }) => {
+        const Flashcard = ({ front, back, flipHint = '點擊翻轉' }) => {
             const [flipped, setFlipped] = useState(false);
             return (
                 <div className="group w-full h-36 cursor-pointer perspective-1000" onClick={() => setFlipped(!flipped)}
@@ -1676,7 +1727,7 @@
                             className="absolute w-full h-full backface-hidden glass premium-card rounded-2xl flex flex-col items-center justify-center p-4 z-10">
                             <h3 className="text-base font-bold gradient-text">{front}</h3>
                             <p className="text-[10px] text-gray-400 mt-2 flex items-center"><i
-                                className="fas fa-hand-pointer mr-1"></i>點擊翻轉</p>
+                                className="fas fa-hand-pointer mr-1"></i>{flipHint}</p>
                         </div>
                         <div
                             className="absolute w-full h-full backface-hidden bg-gradient-to-br from-google-blue to-google-green text-white rounded-2xl shadow-google flex items-center justify-center p-4 rotate-y-180">
@@ -1793,12 +1844,12 @@
                             </h3>
                             <div className="space-y-3 text-sm">
                                 <div className="flex justify-between">
-                                    <span className="text-slate-500">已回答題數</span>
+                                    <span className="text-slate-500">{labels.answeredQuestions}</span>
                                     <span className="font-semibold">{Object.values(quizScores).reduce((acc, sec) => acc +
                                         Object.keys(sec).length, 0)} / {maxQuestions}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-slate-500">總分</span>
+                                    <span className="text-slate-500">{labels.scoreLabel}</span>
                                     <span className="font-semibold text-brand-600">{totalScore}</span>
                                 </div>
                             </div>
@@ -1912,13 +1963,13 @@
                     t: item.k,
                     d: item.tc
                 })).sort((a, b) => a.t.localeCompare(b.t));
-            }, []);
+            }, [currentGlossary]);
 
             const currentGlossaryDefinition = useMemo(() => {
                 if (!selectedGlossaryKey) return null;
-                const item = glossaryData.find(g => g.k === selectedGlossaryKey);
+                const item = currentGlossary.find(g => g.k === selectedGlossaryKey || (g.alt && g.alt.includes(selectedGlossaryKey)));
                 return item ? item.tc : null;
-            }, [selectedGlossaryKey]);
+            }, [selectedGlossaryKey, currentGlossary]);
 
             const handleQuizAnswer = (secId, qIdx, score) => {
                 setQuizScores(prev => ({
@@ -2055,8 +2106,67 @@
                                 </header>
 
                                 {/* Section Content - 根據章節選擇不同 layout */}
-                                {currentSection.isHistory ? (
-                                    <UsageHistory quizScores={quizScores} sections={APP_DATA.sections}
+                                {currentSection.isSurvey ? (
+                                    /* 問卷回饋頁面 */
+                                    <div className="space-y-8 animate-fade-in">
+                                        {/* Hero 區塊 */}
+                                        <div className="hero-section hero-green">
+                                            <div className="hero-content">
+                                                <i className="fas fa-comment-dots text-5xl mb-4 opacity-80"></i>
+                                                <h3 className="text-3xl md:text-4xl font-bold mb-4">
+                                                    {lang === 'zh' ? '問卷回饋' : 'Feedback Survey'}
+                                                </h3>
+                                                <p className="text-lg opacity-90 max-w-2xl mx-auto">
+                                                    {lang === 'zh'
+                                                        ? '感謝您的學習！請花幾分鐘填寫問卷，協助我們改善課程內容。'
+                                                        : 'Thank you for learning! Please take a few minutes to complete the survey and help us improve.'}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        {/* 問卷嵌入區 */}
+                                        <div className="glass premium-card p-6 rounded-2xl">
+                                            <div className="flex items-center mb-6">
+                                                <div className="w-10 h-10 rounded-full bg-google-green text-white flex items-center justify-center mr-3">
+                                                    <i className="fas fa-clipboard-list"></i>
+                                                </div>
+                                                <div>
+                                                    <h4 className="text-lg font-bold text-gray-800 dark:text-white">
+                                                        {lang === 'zh' ? '課程意見回饋表' : 'Course Feedback Form'}
+                                                    </h4>
+                                                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                                                        {lang === 'zh' ? '您的意見對我們非常重要' : 'Your feedback is valuable to us'}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div className="w-full rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-white">
+                                                <iframe
+                                                    src={currentSection.surveyUrl}
+                                                    width="100%"
+                                                    height="600"
+                                                    frameBorder="0"
+                                                    marginHeight="0"
+                                                    marginWidth="0"
+                                                    style={{ minHeight: '600px' }}
+                                                    className="w-full"
+                                                >
+                                                    {lang === 'zh' ? '載入中…' : 'Loading...'}
+                                                </iframe>
+                                            </div>
+                                        </div>
+
+                                        {/* 感謝提示 */}
+                                        <div className="feature-card card-blue premium-card text-center">
+                                            <i className="fas fa-heart text-3xl mb-3 opacity-80"></i>
+                                            <p className="text-lg font-medium">
+                                                {lang === 'zh'
+                                                    ? '感謝您抽空填寫問卷，祝您學習愉快！'
+                                                    : 'Thank you for taking the time to complete the survey. Happy learning!'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ) : currentSection.isHistory ? (
+                                    <UsageHistory quizScores={quizScores} sections={sectionsWithVideos}
                                         labels={t.labels} />
                                 ) : activeSection === 0 ? (
                                     /* Layout 1: Hero + 統計卡 + 斜角區塊 (概覽頁) */
@@ -2105,13 +2215,13 @@
                                         </div>
 
                                         {/* Theme Explorer */}
-                                        <ThemeExplorer themes={currentSection.themes} label={APP_DATA.labels.themes} />
+                                        <ThemeExplorer themes={currentSection.themes} label={t.labels.themes} />
 
                                         {/* Quiz */}
                                         {currentSection.quiz && currentSection.quiz.length > 0 && (
                                             <SelfCheck questions={currentSection.quiz} answers={quizScores[currentSection.id] || {}}
                                                 onAnswer={(qIdx, score) => handleQuizAnswer(currentSection.id, qIdx, score)}
-                                                labels={APP_DATA.labels} />
+                                                labels={t.labels} />
                                         )}
                                     </div>
                                 ) : activeSection === 1 ? (
@@ -2161,7 +2271,7 @@
                                                 <h3
                                                     className="text-lg font-bold text-gray-800 dark:text-white mb-6 flex items-center">
                                                     <i className="fas fa-tasks text-google-green mr-2"></i>
-                                                    {APP_DATA.labels.actionPlan}
+                                                    {t.labels.actionPlan}
                                                 </h3>
                                                 <div className="timeline">
                                                     {currentSection.actionPlan.map((a, i) => (
@@ -2175,10 +2285,10 @@
                                             </div>
                                         )}
 
-                                        <ThemeExplorer themes={currentSection.themes} label={APP_DATA.labels.themes} />
+                                        <ThemeExplorer themes={currentSection.themes} label={t.labels.themes} />
                                         {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz}
                                             answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) =>
-                                                handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
+                                                handleQuizAnswer(currentSection.id, qIdx, score)} labels={t.labels} />}
                                     </div>
                                 ) : activeSection === 4 ? (
                                     /* Layout 6: 學習路線連結頁 - 藍色 Hero + 時間軸 */
@@ -2186,8 +2296,8 @@
                                         {/* Hero 藍色 */}
                                         <div className="hero-section">
                                             <div className="hero-content">
-                                                <h3 className="text-3xl font-bold mb-2">學習路線連結</h3>
-                                                <p className="opacity-90">從課堂到職涯的能力養成路線</p>
+                                                <h3 className="text-3xl font-bold mb-2">{t.ui.hero4Title}</h3>
+                                                <p className="opacity-90">{t.ui.hero4Desc}</p>
                                             </div>
                                         </div>
 
@@ -2196,7 +2306,7 @@
                                             <h3
                                                 className="text-lg font-bold text-gray-800 dark:text-white mb-6 flex items-center">
                                                 <i className="fas fa-graduation-cap text-google-blue mr-2"></i>
-                                                {APP_DATA.labels.highlights}
+                                                {t.labels.highlights}
                                             </h3>
                                             <div className="timeline">
                                                 {currentSection.highlights?.map((h, i) => (
@@ -2231,18 +2341,18 @@
                                             </div>
                                         )}
 
-                                        <ThemeExplorer themes={currentSection.themes} label={APP_DATA.labels.themes} />
+                                        <ThemeExplorer themes={currentSection.themes} label={t.labels.themes} />
 
                                         {currentSection.flashcards?.length > 0 && (
                                             <div className="masonry-grid">
                                                 {currentSection.flashcards.map((f, i) =>
-                                                    <Flashcard key={i} front={f.front} back={f.back} />)}
+                                                    <Flashcard key={i} front={f.front} back={f.back} flipHint={t.labels.flipHint} />)}
                                             </div>
                                         )}
 
                                         {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz}
                                             answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) =>
-                                                handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
+                                                handleQuizAnswer(currentSection.id, qIdx, score)} labels={t.labels} />}
                                     </div>
                                 ) : activeSection === 5 ? (
                                     /* Layout 3: 團隊介紹頁 - 瀑布流 */
@@ -2250,8 +2360,8 @@
                                         {/* Hero */}
                                         <div className="hero-section hero-green">
                                             <div className="hero-content">
-                                                <h3 className="text-3xl font-bold mb-2">我們的團隊</h3>
-                                                <p className="opacity-90">認識專案製作團隊成員</p>
+                                                <h3 className="text-3xl font-bold mb-2">{t.ui.hero5Title}</h3>
+                                                <p className="opacity-90">{t.ui.hero5Desc}</p>
                                             </div>
                                         </div>
 
@@ -2291,14 +2401,14 @@
                                                 </h3>
                                                 <div className="masonry-grid">
                                                     {currentSection.videos.map((v, i) =>
-                                                        <VideoCard key={i} video={v} label={APP_DATA.labels.watchVideo} />)}
+                                                        <VideoCard key={i} video={v} label={t.labels.watchVideo} />)}
                                                 </div>
                                             </div>
                                         )}
 
                                         {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz}
                                             answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) =>
-                                                handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
+                                                handleQuizAnswer(currentSection.id, qIdx, score)} labels={t.labels} />}
                                     </div>
                                 ) : activeSection === 2 ? (
                                     /* Layout 4: 核心能力頁 - 全寬特色卡片 */
@@ -2306,8 +2416,8 @@
                                         {/* Hero 紅色 */}
                                         <div className="hero-section hero-red">
                                             <div className="hero-content">
-                                                <h3 className="text-3xl font-bold mb-2">核心能力需求</h3>
-                                                <p className="opacity-90">成為 Google PM 需要具備的關鍵能力</p>
+                                                <h3 className="text-3xl font-bold mb-2">{t.ui.hero2Title}</h3>
+                                                <p className="opacity-90">{t.ui.hero2Desc}</p>
                                             </div>
                                         </div>
 
@@ -2319,7 +2429,7 @@
                                                 return (
                                                     <div key={i} className={`feature-card ${cardColors[i % 4]} premium-card stagger-item
                                         animate-slide-left relative`} style={{ animationDelay: `${i * 0.1}s` }}>
-                                                        {i === 0 && <span className="floating-badge">重要</span>}
+                                                        {i === 0 && <span className="floating-badge">{t.labels.important}</span>}
                                                         <div className="flex items-center gap-4">
                                                             <div
                                                                 className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center shrink-0">
@@ -2338,7 +2448,7 @@
                                                 <h3
                                                     className="text-lg font-bold text-gray-800 dark:text-white mb-6 flex items-center">
                                                     <i className="fas fa-route text-google-blue mr-2"></i>
-                                                    {APP_DATA.labels.actionPlan}
+                                                    {t.labels.actionPlan}
                                                 </h3>
                                                 <div className="timeline">
                                                     {currentSection.actionPlan.map((a, i) => (
@@ -2352,19 +2462,19 @@
                                             </div>
                                         )}
 
-                                        <ThemeExplorer themes={currentSection.themes} label={APP_DATA.labels.themes} />
+                                        <ThemeExplorer themes={currentSection.themes} label={t.labels.themes} />
 
                                         {/* Flashcards */}
                                         {currentSection.flashcards?.length > 0 && (
                                             <div className="masonry-grid">
                                                 {currentSection.flashcards.map((f, i) =>
-                                                    <Flashcard key={i} front={f.front} back={f.back} />)}
+                                                    <Flashcard key={i} front={f.front} back={f.back} flipHint={t.labels.flipHint} />)}
                                             </div>
                                         )}
 
                                         {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz}
                                             answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) =>
-                                                handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
+                                                handleQuizAnswer(currentSection.id, qIdx, score)} labels={t.labels} />}
                                     </div>
                                 ) : activeSection === 3 ? (
                                     /* Layout 5: 技能對應頁 - 瀑布流卡片 */
@@ -2372,8 +2482,8 @@
                                         {/* Hero 黃色 */}
                                         <div className="hero-section hero-yellow">
                                             <div className="hero-content" style={{ color: '#333' }}>
-                                                <h3 className="text-3xl font-bold mb-2">具體技能對應</h3>
-                                                <p className="opacity-80">將核心能力轉化為可實踐的具體技能</p>
+                                                <h3 className="text-3xl font-bold mb-2">{t.ui.hero3Title}</h3>
+                                                <p className="opacity-80">{t.ui.hero3Desc}</p>
                                             </div>
                                         </div>
 
@@ -2400,7 +2510,7 @@
                                                 <h3
                                                     className="text-lg font-bold text-gray-800 dark:text-white mb-4 flex items-center">
                                                     <i className="fas fa-clipboard-list text-google-red mr-2"></i>
-                                                    {APP_DATA.labels.actionPlan}
+                                                    {t.labels.actionPlan}
                                                 </h3>
                                                 <div className="space-y-3">
                                                     {currentSection.actionPlan.map((a, i) => (
@@ -2419,18 +2529,18 @@
                                             </div>
                                         )}
 
-                                        <ThemeExplorer themes={currentSection.themes} label={APP_DATA.labels.themes} />
+                                        <ThemeExplorer themes={currentSection.themes} label={t.labels.themes} />
 
                                         {currentSection.flashcards?.length > 0 && (
                                             <div className="masonry-grid">
                                                 {currentSection.flashcards.map((f, i) =>
-                                                    <Flashcard key={i} front={f.front} back={f.back} />)}
+                                                    <Flashcard key={i} front={f.front} back={f.back} flipHint={t.labels.flipHint} />)}
                                             </div>
                                         )}
 
                                         {currentSection.quiz?.length > 0 && <SelfCheck questions={currentSection.quiz}
                                             answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) =>
-                                                handleQuizAnswer(currentSection.id, qIdx, score)} labels={APP_DATA.labels} />}
+                                                handleQuizAnswer(currentSection.id, qIdx, score)} labels={t.labels} />}
                                     </div>
                                 ) : (
                                     /* 預設 Layout: 雙欄式 */
@@ -2443,7 +2553,7 @@
                                                     <h3
                                                         className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
                                                         <i className="fas fa-star text-google-yellow mr-2"></i>
-                                                        {APP_DATA.labels.highlights}
+                                                        {t.labels.highlights}
                                                     </h3>
                                                     <div
                                                         className="glass premium-card p-5 rounded-2xl border-l-4 border-google-blue space-y-3">
@@ -2470,7 +2580,7 @@
                                                     <h3
                                                         className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
                                                         <i className="fas fa-rocket text-google-red mr-2"></i>
-                                                        {APP_DATA.labels.actionPlan}
+                                                        {t.labels.actionPlan}
                                                     </h3>
                                                     <div
                                                         className="glass premium-card p-5 rounded-2xl border-l-4 border-google-green">
@@ -2504,7 +2614,7 @@
                                                     <h3
                                                         className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
                                                         <i className="fas fa-tags text-google-blue mr-2"></i>
-                                                        關鍵字
+                                                        {t.labels.keywords}
                                                     </h3>
                                                     <div className="flex flex-wrap gap-2 mb-4">
                                                         {currentSection.keywords.map((k, i) => {
@@ -2522,7 +2632,7 @@
                                                             );
                                                         })}
                                                     </div>
-                                                    <ThemeExplorer themes={currentSection.themes} label={APP_DATA.labels.themes} />
+                                                    <ThemeExplorer themes={currentSection.themes} label={t.labels.themes} />
                                                 </section>
                                             )}
 
@@ -2543,11 +2653,11 @@
                                                     <h3
                                                         className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
                                                         <i className="fas fa-play-circle text-google-red mr-2"></i>
-                                                        {APP_DATA.labels.videos}
+                                                        {t.labels.videos}
                                                     </h3>
                                                     <div className="grid gap-4">
                                                         {currentSection.videos.map((v, i) =>
-                                                            <VideoCard key={i} video={v} label={APP_DATA.labels.watchVideo} />)}
+                                                            <VideoCard key={i} video={v} label={t.labels.watchVideo} />)}
                                                     </div>
                                                 </section>
                                             )}
@@ -2560,11 +2670,11 @@
                                                     <h3
                                                         className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
                                                         <i className="fas fa-clone text-google-yellow mr-2"></i>
-                                                        {APP_DATA.labels.flashcards}
+                                                        {t.labels.flashcards}
                                                     </h3>
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                                         {currentSection.flashcards.map((f, i) =>
-                                                            <Flashcard key={i} front={f.front} back={f.back} />)}
+                                                            <Flashcard key={i} front={f.front} back={f.back} flipHint={t.labels.flipHint} />)}
                                                     </div>
                                                 </section>
                                             )}
@@ -2577,12 +2687,12 @@
                                                     <h3
                                                         className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center">
                                                         <i className="fas fa-clipboard-check text-google-green mr-2"></i>
-                                                        {APP_DATA.labels.quiz}
+                                                        {t.labels.quiz}
                                                     </h3>
                                                     <SelfCheck questions={currentSection.quiz}
                                                         answers={quizScores[currentSection.id] || {}} onAnswer={(qIdx, score) =>
                                                             handleQuizAnswer(currentSection.id, qIdx, score)}
-                                                        labels={APP_DATA.labels}
+                                                        labels={t.labels}
                                                     />
                                                 </section>
                                             )}
@@ -2597,14 +2707,14 @@
                                         {/* Glossary */}
                                         <div className="w-full md:w-2/3">
                                             <label
-                                                className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{APP_DATA.labels.glossary}</label>
+                                                className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">{t.labels.glossary}</label>
                                             <div className="relative">
                                                 <select
                                                     className="w-full p-4 pl-12 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-brand-500 outline-none appearance-none shadow-sm cursor-pointer brand-serif"
                                                     onChange={(e) => setSelectedGlossaryKey(e.target.value)}
                                                     value={selectedGlossaryKey}
                                                 >
-                                                    <option value="">{APP_DATA.meta.glossaryPrompt}</option>
+                                                    <option value="">{t.meta.glossaryPrompt}</option>
                                                     {displayGlossary.map((g, i) => <option key={i} value={g.key}>{g.t}
                                                     </option>)}
                                                 </select>
